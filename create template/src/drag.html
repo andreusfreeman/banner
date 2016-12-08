@@ -1,0 +1,41 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/style.css" >
+</head>
+<body>
+	<div class="create__block">
+		<div class="create__block__left">
+			<canvas id="myCanvas" width="700" height="400" style="border:1px solid #d3d3d3;position:relative"></canvas>
+		</div>
+		<div class="create__block__right">
+			<button onclick="createBanner()">add</button>
+			<span class="create__block__right-add-element">Add element</span>
+			<select class="create__block__right__select">
+				<option value="div, black">DIV</option>
+				<option value="span, blue">TEXT</option>
+			</select>
+			<div class="create__block__right__style">
+				<button class="create__block__right__style-button">
+					change
+				</button>
+			</div>
+			<div class="create__block__right__result">
+				<img id="scream" src="img/cc.jpg" alt="The Scream">
+			</div>
+			<div class="create__block__right__image">
+				<img src="https://js.cx/clipart/ball.svg" style="cursor:pointer" id="ball" width="40" height="40">
+				<img src="https://js.cx/clipart/ball.svg" style="cursor:pointer" id="ball1" width="40" height="40">
+				<img src="https://js.cx/clipart/ball.svg" style="cursor:pointer" id="ball2" width="40" height="40">
+				<img src="https://js.cx/clipart/ball.svg" style="cursor:pointer" id="ball4" width="40" height="40">
+			</div>
+		</div>
+	</div>
+	<script src="js/create-element.js"></script>
+	<script src="js/control-element.js"></script>
+	<script src="js/banner-image.js"></script>
+</body>
+
+</html>
