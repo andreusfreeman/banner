@@ -24,17 +24,17 @@
 						var img = banner[j];
 						ctx.drawImage(img, resultArray[2], resultArray[3]);
 					}
-
-					ctx.beginPath();
-					ctx.rect(resultArray[2], resultArray[3], resultArray[0], resultArray[1]);
-					ctx.fillStyle = "yellow";
-					ctx.fill(); /*
-					ctx.font="20px Georgia";
-					ctx.fillText("Hello World!",10,50);
-					ctx.font="30px Verdana";
-					ctx.background = "yellow";
-					ctx.padding = "10px";*/
-					// Create gradient
+					if ( banner[j].localName !== 'span' ) {
+						ctx.beginPath();
+						ctx.rect(resultArray[2], resultArray[3], resultArray[0], resultArray[1]);
+						ctx.fillStyle = "yellow";
+						ctx.fill(); /*
+						ctx.font="20px Georgia";
+						ctx.fillText("Hello World!",10,50);
+						ctx.font="30px Verdana";
+						ctx.background = "yellow";
+						ctx.padding = "10px";*/
+					}
 
 					//insert text
 
@@ -72,10 +72,11 @@
 							var rt = parseInt(getComputedStyle(textInsert).fontSize);
 							var maxWidth = parseInt(getComputedStyle(textInsert).width);
 							var lineHeight = parseInt(getComputedStyle(textInsert).lineHeight);
+							var fontFamily = getComputedStyle(textInsert).fontFamily;
 							var marginLeft = resultArray[2];
 							var marginTop = resultArray[3] + rt;
 							var text = textInsert.innerHTML;
-							ctx.font = textInsert.style.fontSize + " Calibri";
+							ctx.font = textInsert.style.fontSize + " " + fontFamily;
 							ctx.fillStyle = "white";
 							wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight);
 						}

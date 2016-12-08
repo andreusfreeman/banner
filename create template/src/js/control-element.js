@@ -105,14 +105,14 @@ testObj.id = elem.id;
 var testObj = {
 	id: ''
 }
-window.onload = function() {
-	var c = document.getElementById("myCanvas");
-	var img = document.getElementById("scream");
-	c.setAttribute('width', parseInt(getComputedStyle(img).width));
-	c.setAttribute('height', parseInt(getComputedStyle(img).height));
-	var ctx = c.getContext("2d");
-	ctx.drawImage(img, 0, 0);
-}
+// window.onload = function() {
+// 	var c = document.getElementById("myCanvas");
+// 	var img = document.getElementById("scream");
+// 	c.setAttribute('width', parseInt(getComputedStyle(img).width));
+// 	c.setAttribute('height', parseInt(getComputedStyle(img).height));
+// 	var ctx = c.getContext("2d");
+// 	ctx.drawImage(img, 0, 0);
+// }
 
 function insertText(e) {
 	if ( e.localName === 'span' ) {

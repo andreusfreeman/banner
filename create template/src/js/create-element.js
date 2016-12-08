@@ -98,7 +98,7 @@ document.querySelector('.create__block__right-add-element').addEventListener('cl
 		var styleValue = 'width: 50px;height: 40px;cursor:pointer;border: 2px solid black';
 		var textValue = '';
 	} else if ( valueArray == 'span' ) {
-		var styleValue = 'color: red;cursor:pointer;font-size:16px';
+		var styleValue = 'color:red;cursor:pointer;font-size:16px;line-height:20px;width:35px';
 		var textValue = 'Text';
 	}
 	const newBlock = new ChangeElement(valueArray, 'create__block__right-blocks', 'ball', textValue, styleValue);
