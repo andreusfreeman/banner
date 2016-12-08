@@ -354,7 +354,6 @@ bannerSpace.onmousedown = function(e) {
 		]);
 		underChangeElement.addMoreElement(changeElements);
 	}
-
 	if (bannerElement === null && checkClass === false) return;
 	var widthValue = Math.floor(parseInt(bannerElement.style.width));
 	var heightValue = Math.floor(parseInt(bannerElement.style.height));
