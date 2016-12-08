@@ -23,6 +23,7 @@
 					if ( banner[j].src !== undefined) {
 						var img = banner[j];
 						ctx.drawImage(img, resultArray[2], resultArray[3]);
+						console.log('greem');
 					}
 					if ( banner[j].localName !== 'span' ) {
 						ctx.beginPath();

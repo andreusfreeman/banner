@@ -28,8 +28,10 @@ bannerSpace.onmousedown = function(e) {
 		}
 		const changeControl = new ChangeElement('div', 'new__block','', '');
 		let changeElements = changeControl.addElement(e.target);
-		//const underChangeElement = new ChangeElement('span', ['new__block-left-up', 'new__block-right-up', 'new__block-right-down', 'new__block-left-down']);
-		const underChangeElement = new ChangeElement('a', ['new__block-right-up', 'new__block-right-down']);
+		const underChangeElement = new ChangeElement('a', [
+			['new__block-right-up', ''],
+			['new__block-right-down', '']
+		]);
 		underChangeElement.addMoreElement(changeElements);
 	}
 
@@ -82,6 +84,12 @@ bannerSpace.onmousedown = function(e) {
 			insertText(e.target);
 		}
 	};
+
+	if ( e.target.id.length === 0 ) {
+		document.querySelector('.create__block__right__style-element').innerHTML = e.target.parentElement.id;
+	} else {
+		document.querySelector('.create__block__right__style-element').innerHTML = e.target.id;
+	}
 }
 bannerSpace.ondragstart = function() {
 	return false;
@@ -94,13 +102,9 @@ function getCoords(elem) { // кроме IE8-
 	};
 }
 function searchElement(lengthX, lengthY, elem) {
-	//lengthY - height
-	//lengthX - width
-var testElem = document.elementFromPoint(lengthX, lengthY);
-// testElem.appendChild(elem);
-document.querySelector('.create__block__left').appendChild(elem);
-testObj.id = elem.id;
-	//elem.removeAttribute("style");
+	var testElem = document.elementFromPoint(lengthX, lengthY);
+	document.querySelector('.create__block__left').appendChild(elem);
+	testObj.id = elem.id;
 }
 var testObj = {
 	id: ''
@@ -112,6 +116,7 @@ window.onload = function() {
 	c.setAttribute('height', parseInt(getComputedStyle(img).height));
 	var ctx = c.getContext("2d");
 	ctx.drawImage(img, 0, 0);
+	img.style.display = 'none';
 }
 
 function insertText(e) {

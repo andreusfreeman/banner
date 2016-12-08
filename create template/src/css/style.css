@@ -1,153 +1,192 @@
-﻿* {
-	padding: 0;
-	margin: 0;
-}
+* {
+  padding: 0;
+  margin: 0; }
+
+.control-panel__control-value-down {
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-image: url;
+  background: url(../img/sprite-all.png);
+  background-position: -393px -197px;
+  float: left;
+  cursor: pointer; }
+
+.control-panel__control-value-up {
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-image: url;
+  background: url(../img/sprite-all.png);
+  background-position: -393px -184px;
+  margin-left: 10px;
+  float: left;
+  margin-top: 1px;
+  cursor: pointer; }
+
+.create__block__right__style-element {
+  float: left; }
+
+.control-panel__control-color {
+  margin: 5px;
+  overflow: auto; }
+
+.control-panel__control-color__item {
+  border: 0.5px solid grey;
+  margin: 3px;
+  float: left;
+  width: 30px;
+  height: 30px;
+  cursor: pointer; }
+
+.control-panel__control-color__list {
+  list-style: none;
+  display: inline; }
+
 .close__textarea {
-	display: block;
-	background: url(../img/sprite-all.png);
-	width: 13px;
-	height: 13px;
-	background-position: -378px -198px;
-	top:0;
-	right:0;
-	position:absolute;
-	z-index:10
-}
+  display: block;
+  background: url(../img/sprite-all.png);
+  width: 13px;
+  height: 13px;
+  background-position: -378px -198px;
+  top: 0;
+  right: 0;
+  position: absolute;
+  z-index: 10; }
+
 .new__block {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1000;
-	border: 1px solid green;
-}
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  border: 1px solid green; }
+
 .new__block a {
-	display: block;
-	cursor: pointer;
-}
+  display: block;
+  cursor: pointer; }
+
 .new__block a:hover {
-	background: yellow;
-}
+  background: yellow; }
+
 .new__block-left-up {
-	width: 10px;
-	height: 10px;
-	border-radius: 7px;
-	border: 2px solid red;
-	background: white;
-	position: absolute;
-	top: -6px;
-	left: 45%;
-}
+  width: 10px;
+  height: 10px;
+  border-radius: 7px;
+  border: 2px solid red;
+  background: white;
+  position: absolute;
+  top: -6px;
+  left: 45%; }
+
 .new__block-left-down {
-	width: 10px;
-	height: 10px;
-	border-radius: 7px;
-	border: 2px solid red;
-	background: white;
-	position: absolute;
-	bottom: 45%;
-	left: -6px;
-}
+  width: 10px;
+  height: 10px;
+  border-radius: 7px;
+  border: 2px solid red;
+  background: white;
+  position: absolute;
+  bottom: 45%;
+  left: -6px; }
+
 .new__block-right-up {
-	width: 10px;
-	height: 10px;
-	border-radius: 7px;
-	border: 2px solid red;
-	background: white;
-	position: absolute;
-	top: 45%;
-	right: -6px;
-}
+  width: 10px;
+  height: 10px;
+  border-radius: 7px;
+  border: 2px solid red;
+  background: white;
+  position: absolute;
+  top: 45%;
+  right: -6px; }
+
 .new__block-right-down {
-	width: 10px;
-	height: 10px;
-	border-radius: 7px;
-	border: 2px solid red;
-	background: white;
-	position: absolute;
-	bottom: -6px;
-	right: 45%;
-}
+  width: 10px;
+  height: 10px;
+  border-radius: 7px;
+  border: 2px solid red;
+  background: white;
+  position: absolute;
+  bottom: -6px;
+  right: 45%; }
+
 .computer {
-	  width: 93px;
-	  height: 98px;
-	  background: url(https://js.cx/clipart/computer.gif) no-repeat;
-	  padding: 5px;
-	  font-style: italic;
-	}
+  width: 93px;
+  height: 98px;
+  background: url(https://js.cx/clipart/computer.gif) no-repeat;
+  padding: 5px;
+  font-style: italic; }
 
-	.computer-smile {
-	  background: url(https://js.cx/clipart/computer-smile.gif) no-repeat;
-	}
+.computer-smile {
+  background: url(https://js.cx/clipart/computer-smile.gif) no-repeat; }
 
-	.draggable {
-	  cursor: pointer;
-	}
-	.create__block {
-		width: 80%;
-	}
-	.create__block__left {
-		float: left;
-		width: 65%;
-		height: 400px;
-		background: blue;
-		position: absolute;
-		/*top: 20px;
-		left: 20px;*/
-	}
-	.create__block__right {
-		position: relative;
-		float: right;
-		width: 35%;
-		height: 400px;
-		background: yellow;
-	}
-	.create__block__right__image {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-	}
-	.create__block__right-blocks {
-		/*display: block;
+.draggable {
+  cursor: pointer; }
+
+.create__block {
+  width: 80%; }
+
+.create__block__left {
+  float: left;
+  width: 65%;
+  height: 400px;
+  background: blue;
+  position: absolute;
+  /*top: 20px;
+		left: 20px;*/ }
+
+.create__block__right {
+  position: relative;
+  float: right;
+  width: 35%;
+  height: 400px;
+  background: yellow; }
+
+.create__block__right__image {
+  position: absolute;
+  bottom: 0;
+  left: 0; }
+
+.create__block__right-blocks {
+  /*display: block;
 		border: 2px solid red;*/
-		position: relative;
-		/*width: 50px;
+  position: relative;
+  /*width: 50px;
 		height: 40px;
 		cursor: pointer;
 		border: 2px solid black;
-		color: red;*/
-	}
-	.create__block__right__style-button {
-		float: right;
-		cursor: pointer;
-	}
-	.create__block__right-add-element {
-		cursor: pointer;
-	}
-	.create__block__right__style {
-		padding: 10px;
-		width: 95%;
-		border: 0.5px solid silver;
-	}
-	.create__block__right__result {
-		padding: 10px;
-		width: 95%;
-		border: 0.5px solid silver;
-		margin-top: 5px;
-		overflow: hidden;
-	}
-	.create__block__right-add-element:hover {
-		color: red;
-	}
-	.create__block__right-add-element-list {
-		background: url(../img/sprite-all.png);
-		background-position: -15px -150px;
-		display: block;
-		width: 14px;
-		height: 14px;
-		position: absolute;
-		top: 0;
-		right: 1px;
-		cursor: pointer;
-	}
+		color: red;*/ }
+
+.create__block__right__style-button {
+  float: right;
+  cursor: pointer; }
+
+.create__block__right-add-element {
+  cursor: pointer; }
+
+.create__block__right__style {
+  padding: 10px;
+  width: 95%;
+  border: 0.5px solid silver;
+  overflow: auto; }
+
+.create__block__right__result {
+  padding: 10px;
+  width: 95%;
+  border: 0.5px solid silver;
+  margin-top: 5px;
+  overflow: hidden; }
+
+.create__block__right-add-element:hover {
+  color: red; }
+
+.create__block__right-add-element-list {
+  background: url(../img/sprite-all.png);
+  background-position: -15px -150px;
+  display: block;
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 0;
+  right: 1px;
+  cursor: pointer; }

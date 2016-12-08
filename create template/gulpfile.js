@@ -1,59 +1,31 @@
-'use strict';
-
 var gulp = require('gulp');
+var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
-var autoprefixer = require('gulp-autoprefixer');
-var spritesmith = require('gulp.spritesmith');
 var concat = require('gulp-concat');
 
+// Static Server + watching scss/html files
+gulp.task('serve', ['sass', 'concat'], function() {
+
+    browserSync.init({
+        server: "src"
+    });
+
+    gulp.watch("src/style/*.scss", ['sass']);
+    gulp.watch("src/*.html").on('change', browserSync.reload);
+    gulp.watch('src/script/*.js', ['concat']);
+});
+
+// Compile sass into CSS & auto-inject into browsers
+gulp.task('sass', function() {
+    return gulp.src("src/style/*.scss")
+        .pipe(sass())
+        .pipe(gulp.dest("src/css"))
+        .pipe(browserSync.stream());
+});
 gulp.task('concat', function() {
-  return gulp.src('angular/dest/*.js')
-    .pipe(concat('controllers.js'))
-    .pipe(gulp.dest('angular/'));
+  return gulp.src('src/script/*.js')
+    .pipe(concat('script.js'))
+    .pipe(gulp.dest('src/js/'));
 });
 
-// var connect = require('gulp-connect-php');
-//
-// gulp.task('connect', function() {
-//     connect.server();
-// });
-//
-// gulp.task('php', ['connect']);
-
-gulp.task('sprite', function () {
-  var spriteData = gulp.src('sprite/*.png').pipe(spritesmith({
-    imgName: 'sprite.png',
-    cssName: 'sprite.css'
-  }));
-  return spriteData.pipe(gulp.dest('sprite'));
-});
-gulp.task('default', function () {
-	return gulp.src('style/style.css')
-		.pipe(autoprefixer({
-			browsers: ['last 2 versions'],
-			cascade: false
-		}))
-		.pipe(gulp.dest('dist'));
-});
-gulp.task('compress', function (cb) {
-  pump([
-        gulp.src('js/*.js'),
-        uglify(),
-        gulp.dest('dist')
-    ],
-    cb
-  );
-});
-gulp.task('sass', function () {
-  return gulp.src('styles/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('styles'));
-});
-
-gulp.task('sass:watch', function () {
-  gulp.watch('styles/*.scss', ['sass']);
-});
-gulp.task('concat:watch', function () {
-  gulp.watch('angular/dest/*.js', ['concat']);
-});
+gulp.task('default', ['serve']);
