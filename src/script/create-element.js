@@ -9,7 +9,6 @@ class ChangeElement {
 	addElement(place) {
 		this.elem = document.createElement(this.elem);
 		this.elem.className = this.nameClass;
-		console.log(this.style);
 		this.elem.setAttribute('style', this.style);
 		if (this.id.length > 0 ) {
 			this.elem.id = this.id + Math.floor(Math.random() * 10000);
@@ -45,7 +44,7 @@ document.querySelector('.create__block__right-add-element').addEventListener('cl
 	let valueArray = document.querySelector('.create__block__right__select').value.split(', ')[0];
 	console.log(valueArray);
 	if ( valueArray == 'div' ) {
-		var styleValue = 'width: 50px;height: 40px;cursor:pointer;border: 2px solid black';
+		var styleValue = 'width:50px;height:40px;cursor:pointer;border:2px solid black';
 		var textValue = '';
 	} else if ( valueArray == 'span' ) {
 		var styleValue = 'color:red;cursor:pointer;font-size:16px;line-height:20px;width:35px';
