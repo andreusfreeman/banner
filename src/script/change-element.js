@@ -67,15 +67,16 @@
 	}
 }
 var controlArray = [
-	['div', 'change-width', 'changeWidth', 'Width', '.control-panel__control-block',''],
-	['div', 'change-padding', 'changePadding', 'Padding', '.control-panel__control-block',''],
+	['div', 'change-width', 'changeWidth', 'Width', '.instrument-control__style__block',''],
+	['div', 'change-height', 'changeHeight', 'Height', '.instrument-control__style__block',''],
+	['div', 'change-padding', 'changePadding', 'Padding', '.instrument-control__style__block',''],
 	// ['div', 'change-margin', 'changeMargin', 'Margin', '.control-panel__control-block',''],
-	['div', 'change-radius', 'changeRadius', 'Radius', '.control-panel__control-block',''],
+	['div', 'change-radius', 'changeRadius', 'Radius', '.instrument-control__style__block',''],
 	// ['div', 'change-shadow', 'changeShadow', 'Shadow', '.control-panel__control-block',''],
 	// ['div', 'change-shadow-up', 'changeShadowUp', 'Shadow Up', '.control-panel__control-block',''],
 	// ['div', 'change-shadow-down', 'changeShadowDown', 'Shadow Down', '.control-panel__control-block',''],
-	['div', 'change-fontsize', 'changeFontSize', 'Font-Size', '.control-panel__control-text',''],
-	['div', 'change-lineheight', 'changeLineHeight', 'Line-Height', '.control-panel__control-text'],
+	['div', 'change-fontsize', 'changeFontSize', 'Font-Size', '.instrument-control__style__block',''],
+	['div', 'change-lineheight', 'changeLineHeight', 'Line-Height', '.instrument-control__style__block'],
 	// ['div', 'change-shadow-down-text', 'changeShadowTextDown', 'Shadow Text Down', '.control-panel__control-text',''],
 	// ['div', 'change-shadow-up-text', 'changeShadowTextUp', 'Shadow Text Up', '.control-panel__control-text',''],
 	// ['div', 'change-shadow-text', 'changeShadowText', 'Shadow Text', '.control-panel__control-text',''],
@@ -85,31 +86,38 @@ var controlArray = [
 	//['div', 'change-bottom-position', 'changeBottomPosition', 'Bottom Position', '.control-panel__control-block',''],
 	// ['div', 'change-left-position', 'changeLeftPosition', 'Left Position', '.control-panel__control-block',''],
 	//['div', 'change-right-position', 'changeRightPosition', 'Right Position', '.control-panel__control-block',''],
-	['div', 'change-opacity', 'changeOpacity', 'Opacity', '.control-panel__control-block',''],
+	['div', 'change-opacity', 'changeOpacity', 'Opacity', '.instrument-control__style__block',''],
 	// ['div', 'change-z-index', 'changeZIndex', 'Z-index', '.control-panel__control-block','']
 ];
 function showControlPanel() {
-	if ( document.querySelector('.control-panel__control-block').children.length == 0 ) {
+	// if ( document.querySelector('.control-panel__control-block').children.length == 0 ) {
 		for ( let i = 0; i < controlArray.length; i++) {
 			const controlElement = new CreateDiv(controlArray[i][0], controlArray[i][4], controlArray[i][3], '', '', controlArray[i][1], controlArray[i][2], controlArray[i][5]);
 			controlElement.NewDiv();
 		}
-		const changeControl = new ChangeElement('ul', 'control-panel__control-color__list','', '');
-		let placeForColor = document.querySelector('.control-panel__control-color');
-		let changeElements = changeControl.addElement(placeForColor);
-		const underChangeElement = new ChangeElement('li', [
+		let colorArray =  [
 			['control-panel__control-color__item', 'none'],
 			['control-panel__control-color__item', 'red'],
 			['control-panel__control-color__item', 'yellow'],
 			['control-panel__control-color__item', 'green'],
 			['control-panel__control-color__item', 'black'],
 			['control-panel__control-color__item', 'white']
-		]);
+		];
+		const changeControlFont = new ChangeElement('ul', 'control-panel__control-color__list','', '');
+		let placeForColorFont = document.querySelector('.instrument-control__color__block');
+		let changeElementsFont = changeControlFont.addElement(placeForColorFont);
+		const underChangeElementFont = new ChangeElement('li', colorArray);
+		underChangeElementFont.addMoreElement(changeElementsFont);
 
-		underChangeElement.addMoreElement(changeElements);
-	} else {
-		//document.querySelector('.control-panel__control-block').children.remove();
-	}
+		// const changeControl = new ChangeElement('ul', 'control-panel__control-color__list','', '');
+		// let placeForColor = document.querySelector('.instrument-control__image__block');
+		// let changeElements = changeControl.addElement(placeForColor);
+		// const underChangeElement = new ChangeElement('li', colorArray);
+		// underChangeElement.addMoreElement(changeElements);
+
+	// } else {
+	// 	//document.querySelector('.control-panel__control-block').children.remove();
+	// }
 }
 function changeValue(classNameElement, stepEl, elem){
 	var t = elem;
@@ -120,8 +128,10 @@ function changeValue(classNameElement, stepEl, elem){
 	if (computedStyle.textShadow === 'none') {
 		t.style.textShadow = "0px 0px 0px blue";
 	}
-	if (classNameElement === 'change-width') {
-		t.style.width = (parseInt(t.offsetWidth) + stepEl) + 'px';
+	if (classNameElement === 'change-height') {
+		t.style.height = (parseInt(computedStyle.height) + stepEl) + 'px';
+	} else if (classNameElement === 'change-width') {
+		t.style.width = (parseInt(computedStyle.width) + stepEl) + 'px';
 	} else if (classNameElement === 'change-radius') {
 		if (computedStyle.borderRadius.length > 0) {
 			t.style.borderRadius = (parseInt(computedStyle.borderRadius) + stepEl) + 'px';
@@ -213,21 +223,21 @@ function changeValue(classNameElement, stepEl, elem){
 	}
 }
 function valueUp(e){
-	var idElement = document.querySelector('.create__block__right__style-element').innerHTML;
+	var idElement = document.querySelector('.info__block').innerHTML;
 	elementSearch = document.getElementById(idElement);
 	if ( elementSearch === null ) return;
 	var classNameElement = e.parentElement.className;
 	changeValue(classNameElement, 1, elementSearch);
 }
 function valueDown(e){
-	var idElement = document.querySelector('.create__block__right__style-element').innerHTML;
+	var idElement = document.querySelector('.info__block').innerHTML;
 	elementSearch = document.getElementById(idElement);
 	if ( elementSearch === null ) return;
 	var classNameElement = e.parentElement.className;
 	changeValue(classNameElement, -1, elementSearch);
 }
-document.querySelector('.control-panel__control-color').addEventListener('click', function(e) {
-	var idElement = document.querySelector('.create__block__right__style-element').innerHTML;
+document.querySelector('.instrument-control__color__block').addEventListener('click', function(e) {
+	var idElement = document.querySelector('.info__block').innerHTML;
 	elementSearch = document.getElementById(idElement);
 	if ( elementSearch === null ) return;
 	if ( elementSearch.localName === 'div' ) {

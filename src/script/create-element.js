@@ -39,18 +39,18 @@ class ChangeElement {
 		span.className = 'create__block__right-add-element-list';
 	}
 }
-document.querySelector('.create__block__right-add-element').addEventListener('click', function() {
-	let place = document.querySelector('.create__block__right__result');
-	let valueArray = document.querySelector('.create__block__right__select').value.split(', ')[0];
-	console.log(valueArray);
+document.querySelector('.instrument-control__element__block-list').addEventListener('click', function(e) {
+	e.preventDefault();
+	let place = document.querySelector('.main__place__elements');
+	let valueArray = e.target.dataset.idKind;
 	if ( valueArray == 'div' ) {
-		var styleValue = 'width:50px;height:40px;cursor:pointer;border:2px solid black';
+		var styleValue = 'width:50px;height:40px;cursor:move;border:1px solid black;border-style:dashed';
 		var textValue = '';
 	} else if ( valueArray == 'span' ) {
-		var styleValue = 'color:red;cursor:pointer;font-size:16px;line-height:20px;width:35px';
+		var styleValue = 'color:red;cursor:move;font-size:16px;line-height:20px;width:35px';
 		var textValue = 'Text';
 	}
-	const newBlock = new ChangeElement(valueArray, 'create__block__right-blocks', 'ball', textValue, styleValue);
+	const newBlock = new ChangeElement(valueArray, '', 'ball', textValue, styleValue);
 	newBlock.deleteButton(newBlock.addElement(place));
 });
 function searchElementNew(elemName, elemSearch) {

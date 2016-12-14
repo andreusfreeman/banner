@@ -13,7 +13,9 @@
 	top:0;
 	right:0;
 	position:absolute;
-	z-index:10
+	z-index:10;
+	padding: 2px;
+	cursor: pointer;
 }
 .new__block {
 	width: 100%;
@@ -23,6 +25,7 @@
 	left: 0;
 	z-index: 1000;
 	border: 1px solid green;
+	border-style: dashed;
 }
 .new__block a {
 	display: block;

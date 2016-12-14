@@ -21,29 +21,33 @@
           <div class="main__place__work">
 
           </div>
-          <div class="main__place__result">
+          <!-- <div class="main__place__result">
 
+          </div> -->
+          <!-- <div class="main__place-garbage">            
+          </div> -->
+          <div class="main__place__elements">
           </div>
         </div>
       </main>
       <aside class="instrument-control">
         <div class="instrument-control__element">
           <div class="instrument-control__element-header">
-            Choice element
+            Create element
           </div>
           <div class="instrument-control__element__block">
             <ul class="instrument-control__element__block-list">
               <li>
-                <a href="/" class="instrument-control__element__block-item">background</a>
+                <a href="/" class="instrument-control__element__block-item" data-id-kind="div">background</a>
               </li>
               <li>
-                <a href="/" class="instrument-control__element__block-item">text</a>
+                <a href="/" class="instrument-control__element__block-item" data-id-kind="span">text</a>
               </li>
             </ul>
           </div>
         </div>
         <div class="instrument-control__style">
-          <div class="instrument-control__style-header">
+          <div class="instrument-control__style-header" onclick="showControlPanel()">
             Correct style
           </div>
           <div class="instrument-control__style__block">
@@ -52,20 +56,20 @@
         </div>
         <div class="instrument-control__color">
           <div class="instrument-control__color-header">
-            Choice colour
+            Font or background colour
           </div>
           <div class="instrument-control__color__block">
 
           </div>
         </div>
-        <div class="instrument-control__image">
+        <!-- <div class="instrument-control__image">
           <div class="instrument-control__image-header">
             Choice background
           </div>
           <div class="instrument-control__image__block">
 
           </div>
-        </div>
+        </div> -->
         <div class="instrument-control__upload">
           <div class="instrument-control__upload-header">
             Upload
@@ -76,7 +80,16 @@
         </div>
       </aside>
     </div>
+    <div class="modal-window"></div>
+    <div class="result__banner">
+      <div class="result__banner-block">
+        <canvas id="myCanvas" width="700" height="400" style="border:1px solid #d3d3d3;position:relative"></canvas>
+      </div>
+    </div>
     <footer></footer>
-    <script src="js/script.js"></script>
+    <!-- <script src="js/script.js"></script> -->
+    <script src="script/create-element.js"></script>
+    <script src="script/change-element.js"></script>
+    <script src="script/control-element.js"></script>
 ﻿  </body>
 ﻿</html>

@@ -148,15 +148,16 @@ class CreateDiv {
 	}
 }
 var controlArray = [
-	['div', 'change-width', 'changeWidth', 'Width', '.control-panel__control-block',''],
-	['div', 'change-padding', 'changePadding', 'Padding', '.control-panel__control-block',''],
+	['div', 'change-width', 'changeWidth', 'Width', '.instrument-control__style__block',''],
+	['div', 'change-height', 'changeHeight', 'Height', '.instrument-control__style__block',''],
+	['div', 'change-padding', 'changePadding', 'Padding', '.instrument-control__style__block',''],
 	// ['div', 'change-margin', 'changeMargin', 'Margin', '.control-panel__control-block',''],
-	['div', 'change-radius', 'changeRadius', 'Radius', '.control-panel__control-block',''],
+	['div', 'change-radius', 'changeRadius', 'Radius', '.instrument-control__style__block',''],
 	// ['div', 'change-shadow', 'changeShadow', 'Shadow', '.control-panel__control-block',''],
 	// ['div', 'change-shadow-up', 'changeShadowUp', 'Shadow Up', '.control-panel__control-block',''],
 	// ['div', 'change-shadow-down', 'changeShadowDown', 'Shadow Down', '.control-panel__control-block',''],
-	['div', 'change-fontsize', 'changeFontSize', 'Font-Size', '.control-panel__control-text',''],
-	['div', 'change-lineheight', 'changeLineHeight', 'Line-Height', '.control-panel__control-text'],
+	['div', 'change-fontsize', 'changeFontSize', 'Font-Size', '.instrument-control__style__block',''],
+	['div', 'change-lineheight', 'changeLineHeight', 'Line-Height', '.instrument-control__style__block'],
 	// ['div', 'change-shadow-down-text', 'changeShadowTextDown', 'Shadow Text Down', '.control-panel__control-text',''],
 	// ['div', 'change-shadow-up-text', 'changeShadowTextUp', 'Shadow Text Up', '.control-panel__control-text',''],
 	// ['div', 'change-shadow-text', 'changeShadowText', 'Shadow Text', '.control-panel__control-text',''],
@@ -166,31 +167,38 @@ var controlArray = [
 	//['div', 'change-bottom-position', 'changeBottomPosition', 'Bottom Position', '.control-panel__control-block',''],
 	// ['div', 'change-left-position', 'changeLeftPosition', 'Left Position', '.control-panel__control-block',''],
 	//['div', 'change-right-position', 'changeRightPosition', 'Right Position', '.control-panel__control-block',''],
-	['div', 'change-opacity', 'changeOpacity', 'Opacity', '.control-panel__control-block',''],
+	['div', 'change-opacity', 'changeOpacity', 'Opacity', '.instrument-control__style__block',''],
 	// ['div', 'change-z-index', 'changeZIndex', 'Z-index', '.control-panel__control-block','']
 ];
 function showControlPanel() {
-	if ( document.querySelector('.control-panel__control-block').children.length == 0 ) {
+	// if ( document.querySelector('.control-panel__control-block').children.length == 0 ) {
 		for ( let i = 0; i < controlArray.length; i++) {
 			const controlElement = new CreateDiv(controlArray[i][0], controlArray[i][4], controlArray[i][3], '', '', controlArray[i][1], controlArray[i][2], controlArray[i][5]);
 			controlElement.NewDiv();
 		}
-		const changeControl = new ChangeElement('ul', 'control-panel__control-color__list','', '');
-		let placeForColor = document.querySelector('.control-panel__control-color');
-		let changeElements = changeControl.addElement(placeForColor);
-		const underChangeElement = new ChangeElement('li', [
+		let colorArray =  [
 			['control-panel__control-color__item', 'none'],
 			['control-panel__control-color__item', 'red'],
 			['control-panel__control-color__item', 'yellow'],
 			['control-panel__control-color__item', 'green'],
 			['control-panel__control-color__item', 'black'],
 			['control-panel__control-color__item', 'white']
-		]);
+		];
+		const changeControlFont = new ChangeElement('ul', 'control-panel__control-color__list','', '');
+		let placeForColorFont = document.querySelector('.instrument-control__color__block');
+		let changeElementsFont = changeControlFont.addElement(placeForColorFont);
+		const underChangeElementFont = new ChangeElement('li', colorArray);
+		underChangeElementFont.addMoreElement(changeElementsFont);
 
-		underChangeElement.addMoreElement(changeElements);
-	} else {
-		//document.querySelector('.control-panel__control-block').children.remove();
-	}
+		// const changeControl = new ChangeElement('ul', 'control-panel__control-color__list','', '');
+		// let placeForColor = document.querySelector('.instrument-control__image__block');
+		// let changeElements = changeControl.addElement(placeForColor);
+		// const underChangeElement = new ChangeElement('li', colorArray);
+		// underChangeElement.addMoreElement(changeElements);
+
+	// } else {
+	// 	//document.querySelector('.control-panel__control-block').children.remove();
+	// }
 }
 function changeValue(classNameElement, stepEl, elem){
 	var t = elem;
@@ -201,8 +209,10 @@ function changeValue(classNameElement, stepEl, elem){
 	if (computedStyle.textShadow === 'none') {
 		t.style.textShadow = "0px 0px 0px blue";
 	}
-	if (classNameElement === 'change-width') {
-		t.style.width = (parseInt(t.offsetWidth) + stepEl) + 'px';
+	if (classNameElement === 'change-height') {
+		t.style.height = (parseInt(computedStyle.height) + stepEl) + 'px';
+	} else if (classNameElement === 'change-width') {
+		t.style.width = (parseInt(computedStyle.width) + stepEl) + 'px';
 	} else if (classNameElement === 'change-radius') {
 		if (computedStyle.borderRadius.length > 0) {
 			t.style.borderRadius = (parseInt(computedStyle.borderRadius) + stepEl) + 'px';
@@ -294,21 +304,21 @@ function changeValue(classNameElement, stepEl, elem){
 	}
 }
 function valueUp(e){
-	var idElement = document.querySelector('.create__block__right__style-element').innerHTML;
+	var idElement = document.querySelector('.info__block').innerHTML;
 	elementSearch = document.getElementById(idElement);
 	if ( elementSearch === null ) return;
 	var classNameElement = e.parentElement.className;
 	changeValue(classNameElement, 1, elementSearch);
 }
 function valueDown(e){
-	var idElement = document.querySelector('.create__block__right__style-element').innerHTML;
+	var idElement = document.querySelector('.info__block').innerHTML;
 	elementSearch = document.getElementById(idElement);
 	if ( elementSearch === null ) return;
 	var classNameElement = e.parentElement.className;
 	changeValue(classNameElement, -1, elementSearch);
 }
-document.querySelector('.control-panel__control-color').addEventListener('click', function(e) {
-	var idElement = document.querySelector('.create__block__right__style-element').innerHTML;
+document.querySelector('.instrument-control__color__block').addEventListener('click', function(e) {
+	var idElement = document.querySelector('.info__block').innerHTML;
 	elementSearch = document.getElementById(idElement);
 	if ( elementSearch === null ) return;
 	if ( elementSearch.localName === 'div' ) {
@@ -318,7 +328,8 @@ document.querySelector('.control-panel__control-color').addEventListener('click'
 	}
 });
 
-var bannerSpace = document.body;
+// var bannerSpace = document.querySelector('.main__place');
+﻿var bannerSpace = document.body;
 //var checkClassName = ['new__block-left-up', 'new__block-right-up', 'new__block-right-down', 'new__block-left-down'];
 var checkClassName = ['new__block-right-up', 'new__block-right-down'];
 bannerSpace.onmousedown = function(e) {
@@ -330,6 +341,8 @@ bannerSpace.onmousedown = function(e) {
 	if ( e.target.localName == 'textarea' ) {
 		return;
 	}
+	if ( e.target.localName === 'canvas' ) return;
+	if ( e.target.className === 'main__place-garbage' ) return;
 	var checkClass = false;
 	bannerElement = document.getElementById(e.target.id);
 	if ( bannerElement === null ) {
@@ -342,7 +355,7 @@ bannerSpace.onmousedown = function(e) {
 			break;
 		}
 	}
-	if ( checkClass === false && (e.target.parentElement.className === 'create__block__left' || e.target.parentElement.parentElement.className === 'create__block__left') && e.target.localName !== 'span' ) {
+	if ( checkClass === false && (e.target.parentElement.className === 'main__place__work' || e.target.parentElement.parentElement.className === 'main__place__work') && e.target.localName !== 'span' ) {
 		if ( document.querySelector('.new__block') !== null )  {
 			document.querySelector('.new__block').remove();
 		}
@@ -392,22 +405,25 @@ bannerSpace.onmousedown = function(e) {
 		if ( e.target.localName == 'textarea' ) {
 			return;
 		}
-		document.onmousemove = null;
-		bannerElement.onmouseup = null;
-		var a = bannerElement.offsetLeft;
-		var b = bannerElement.offsetTop;
-		bannerElement.style.display = 'none';
-		searchElement(a, b, bannerElement);
-		bannerElement.style.display = 'block';
-		if ( testCheck === false ) {
-			insertText(e.target);
+		try {
+			document.onmousemove = null;
+			bannerElement.onmouseup = null;
+			var a = bannerElement.offsetLeft;
+			var b = bannerElement.offsetTop;
+			bannerElement.style.display = 'none';
+			searchElement(a, b, bannerElement);
+			bannerElement.style.display = 'block';
+			if ( testCheck === false ) {
+				insertText(e.target);
+			}
+		}	catch(err) {
+
 		}
 	};
-
 	if ( e.target.id.length === 0 ) {
-		document.querySelector('.create__block__right__style-element').innerHTML = e.target.parentElement.id;
+		document.querySelector('.info__block').innerHTML = e.target.parentElement.id;
 	} else {
-		document.querySelector('.create__block__right__style-element').innerHTML = e.target.id;
+		document.querySelector('.info__block').innerHTML = e.target.id;
 	}
 }
 bannerSpace.ondragstart = function() {
@@ -421,22 +437,27 @@ function getCoords(elem) { // кроме IE8-
 	};
 }
 function searchElement(lengthX, lengthY, elem) {
-	var testElem = document.elementFromPoint(lengthX, lengthY);
-	document.querySelector('.create__block__left').appendChild(elem);
+	// if ( document.elementFromPoint(lengthX, lengthY).className == 'main__place-garbage' ) {
+	// 	bannerElement.remove();
+	// 	return;
+	// }
+	// console.log(document.elementFromPoint(lengthX, lengthY));
+	// var testElem = document.elementFromPoint(lengthX, lengthY);
+	document.querySelector('.main__place__work').appendChild(elem);
 	testObj.id = elem.id;
 }
 var testObj = {
 	id: ''
 }
-window.onload = function() {
-	var c = document.getElementById("myCanvas");
-	var img = document.getElementById("scream");
-	c.setAttribute('width', parseInt(getComputedStyle(img).width));
-	c.setAttribute('height', parseInt(getComputedStyle(img).height));
-	var ctx = c.getContext("2d");
-	ctx.drawImage(img, 0, 0);
-	img.style.display = 'none';
-}
+// window.onload = function() {
+// 	var c = document.getElementById("myCanvas");
+// 	var img = document.getElementById("scream");
+// 	c.setAttribute('width', parseInt(getComputedStyle(img).width));
+// 	c.setAttribute('height', parseInt(getComputedStyle(img).height));
+// 	var ctx = c.getContext("2d");
+// 	ctx.drawImage(img, 0, 0);
+// 	img.style.display = 'none';
+// }
 
 function insertText(e) {
 	if ( e.localName === 'span' ) {
@@ -460,6 +481,16 @@ function closeInput(e) {
 	e.parentElement.parentElement.style.width = widthSpan;
 	e.parentElement.parentElement.innerHTML = e.parentElement.children[0].value;
 }
+document.querySelector('.view__work-place').addEventListener('click', function(e) {
+	let workPlace = document.querySelector('.main__place__work');
+	if (e.target.className === 'view__work-place-vert' ) {
+		workPlace.style.width = '525px';
+		workPlace.style.height = '700px';
+	} else if (e.target.className === 'view__work-place-horiz' ) {
+		workPlace.style.width = '800px';
+		workPlace.style.height = '450px';
+	}
+});
 
 class ChangeElement {
 	constructor(elem, nameClass, id, text, style) {
@@ -502,18 +533,18 @@ class ChangeElement {
 		span.className = 'create__block__right-add-element-list';
 	}
 }
-document.querySelector('.create__block__right-add-element').addEventListener('click', function() {
-	let place = document.querySelector('.create__block__right__result');
-	let valueArray = document.querySelector('.create__block__right__select').value.split(', ')[0];
-	console.log(valueArray);
+document.querySelector('.instrument-control__element__block-list').addEventListener('click', function(e) {
+	e.preventDefault();
+	let place = document.querySelector('.main__place__elements');
+	let valueArray = e.target.dataset.idKind;
 	if ( valueArray == 'div' ) {
-		var styleValue = 'width:50px;height:40px;cursor:pointer;border:2px solid black';
+		var styleValue = 'width:50px;height:40px;cursor:move;border:1px solid black;border-style:dashed';
 		var textValue = '';
 	} else if ( valueArray == 'span' ) {
-		var styleValue = 'color:red;cursor:pointer;font-size:16px;line-height:20px;width:35px';
+		var styleValue = 'color:red;cursor:move;font-size:16px;line-height:20px;width:35px';
 		var textValue = 'Text';
 	}
-	const newBlock = new ChangeElement(valueArray, 'create__block__right-blocks', 'ball', textValue, styleValue);
+	const newBlock = new ChangeElement(valueArray, '', 'ball', textValue, styleValue);
 	newBlock.deleteButton(newBlock.addElement(place));
 });
 function searchElementNew(elemName, elemSearch) {

@@ -33,14 +33,14 @@ header {
 	height: 16px;
 	float: left;
 	background: url(../img/sprite-all.png);
-	background-position: 239px -75px;
+	background-position: 217px -75px;
 }
 .view__work-place-vert {
 	width: 16px;
 	height: 16px;
 	float: right;
 	background: url(../img/sprite-all.png);
-	background-position: 217px -75px;
+	background-position: 239px -75px;
 }
 .wrapper {
 	display: flex;
@@ -57,13 +57,24 @@ main {
 	background: #fefefd;
 }
 .main__place__work {
-	margin: 1%;
+	margin: auto;
 	margin-top: 5px;
-	flex: 1;
-	width: 48%;
-	height: 400px;
+	// flex: 1;
+	width: 525px;
+	height: 700px;
 	background: #fafadd;
 	box-shadow: 0 0 5px #26454a;
+}
+.main__place__elements {
+	width: 150px;
+	height: 700px;
+	margin: 5px;
+	background: #fafadd;
+	box-shadow: 0 0 5px #26454a;
+}
+.instrument-control__color__block,
+.instrument-control__image__block {
+	overflow: auto;
 }
 .main__place__result {
 	margin: 1%;
@@ -111,4 +122,32 @@ footer {
 	width: 100%;
 	height: 50px;
 	background: linear-gradient(to top, #dbd0a2, #44677a);
+}
+.modal-window {
+	display: none;
+	position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(191, 185, 185, 0.85);
+}
+.result__banner {
+	display: none;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1500;
+}
+.result__banner-block {
+	margin: 0 auto;
+	width: 700px;
+	margin-top: 100px;
+}
+.main__place-garbage {
+	width: 100px;
+	height: 100px;
+	background: url(../img/garbage.png);
+	background-size: cover;
 }

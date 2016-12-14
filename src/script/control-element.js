@@ -1,3 +1,4 @@
+// var bannerSpace = document.querySelector('.main__place');
 ﻿var bannerSpace = document.body;
 //var checkClassName = ['new__block-left-up', 'new__block-right-up', 'new__block-right-down', 'new__block-left-down'];
 var checkClassName = ['new__block-right-up', 'new__block-right-down'];
@@ -10,6 +11,8 @@ bannerSpace.onmousedown = function(e) {
 	if ( e.target.localName == 'textarea' ) {
 		return;
 	}
+	if ( e.target.localName === 'canvas' ) return;
+	if ( e.target.className === 'main__place-garbage' ) return;
 	var checkClass = false;
 	bannerElement = document.getElementById(e.target.id);
 	if ( bannerElement === null ) {
@@ -22,7 +25,7 @@ bannerSpace.onmousedown = function(e) {
 			break;
 		}
 	}
-	if ( checkClass === false && (e.target.parentElement.className === 'create__block__left' || e.target.parentElement.parentElement.className === 'create__block__left') && e.target.localName !== 'span' ) {
+	if ( checkClass === false && (e.target.parentElement.className === 'main__place__work' || e.target.parentElement.parentElement.className === 'main__place__work') && e.target.localName !== 'span' ) {
 		if ( document.querySelector('.new__block') !== null )  {
 			document.querySelector('.new__block').remove();
 		}
@@ -72,22 +75,25 @@ bannerSpace.onmousedown = function(e) {
 		if ( e.target.localName == 'textarea' ) {
 			return;
 		}
-		document.onmousemove = null;
-		bannerElement.onmouseup = null;
-		var a = bannerElement.offsetLeft;
-		var b = bannerElement.offsetTop;
-		bannerElement.style.display = 'none';
-		searchElement(a, b, bannerElement);
-		bannerElement.style.display = 'block';
-		if ( testCheck === false ) {
-			insertText(e.target);
+		try {
+			document.onmousemove = null;
+			bannerElement.onmouseup = null;
+			var a = bannerElement.offsetLeft;
+			var b = bannerElement.offsetTop;
+			bannerElement.style.display = 'none';
+			searchElement(a, b, bannerElement);
+			bannerElement.style.display = 'block';
+			if ( testCheck === false ) {
+				insertText(e.target);
+			}
+		}	catch(err) {
+
 		}
 	};
-
 	if ( e.target.id.length === 0 ) {
-		document.querySelector('.create__block__right__style-element').innerHTML = e.target.parentElement.id;
+		document.querySelector('.info__block').innerHTML = e.target.parentElement.id;
 	} else {
-		document.querySelector('.create__block__right__style-element').innerHTML = e.target.id;
+		document.querySelector('.info__block').innerHTML = e.target.id;
 	}
 }
 bannerSpace.ondragstart = function() {
@@ -101,22 +107,27 @@ function getCoords(elem) { // кроме IE8-
 	};
 }
 function searchElement(lengthX, lengthY, elem) {
-	var testElem = document.elementFromPoint(lengthX, lengthY);
-	document.querySelector('.create__block__left').appendChild(elem);
+	// if ( document.elementFromPoint(lengthX, lengthY).className == 'main__place-garbage' ) {
+	// 	bannerElement.remove();
+	// 	return;
+	// }
+	// console.log(document.elementFromPoint(lengthX, lengthY));
+	// var testElem = document.elementFromPoint(lengthX, lengthY);
+	document.querySelector('.main__place__work').appendChild(elem);
 	testObj.id = elem.id;
 }
 var testObj = {
 	id: ''
 }
-window.onload = function() {
-	var c = document.getElementById("myCanvas");
-	var img = document.getElementById("scream");
-	c.setAttribute('width', parseInt(getComputedStyle(img).width));
-	c.setAttribute('height', parseInt(getComputedStyle(img).height));
-	var ctx = c.getContext("2d");
-	ctx.drawImage(img, 0, 0);
-	img.style.display = 'none';
-}
+// window.onload = function() {
+// 	var c = document.getElementById("myCanvas");
+// 	var img = document.getElementById("scream");
+// 	c.setAttribute('width', parseInt(getComputedStyle(img).width));
+// 	c.setAttribute('height', parseInt(getComputedStyle(img).height));
+// 	var ctx = c.getContext("2d");
+// 	ctx.drawImage(img, 0, 0);
+// 	img.style.display = 'none';
+// }
 
 function insertText(e) {
 	if ( e.localName === 'span' ) {
@@ -140,3 +151,13 @@ function closeInput(e) {
 	e.parentElement.parentElement.style.width = widthSpan;
 	e.parentElement.parentElement.innerHTML = e.parentElement.children[0].value;
 }
+document.querySelector('.view__work-place').addEventListener('click', function(e) {
+	let workPlace = document.querySelector('.main__place__work');
+	if (e.target.className === 'view__work-place-vert' ) {
+		workPlace.style.width = '525px';
+		workPlace.style.height = '700px';
+	} else if (e.target.className === 'view__work-place-horiz' ) {
+		workPlace.style.width = '800px';
+		workPlace.style.height = '450px';
+	}
+});
