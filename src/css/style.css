@@ -33,15 +33,120 @@
 
 .control-panel__control-color__item {
   border: 0.5px solid grey;
-  margin: 3px;
+  margin: 1px;
   float: left;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   cursor: pointer; }
 
 .control-panel__control-color__list {
   list-style: none;
   display: inline; }
+
+.view__block {
+  width: 150px;
+  height: 17px;
+  padding: 3px;
+  position: absolute;
+  top: 15px;
+  left: 100px;
+  cursor: pointer; }
+
+.view__block button {
+  cursor: pointer; }
+
+.result__banner-block-close {
+  display: block;
+  width: 36px;
+  height: 31px;
+  position: absolute;
+  top: -15px;
+  right: -37px;
+  background: url(../img/sprite-all.png);
+  background-position: -69px -419px;
+  cursor: pointer; }
+
+.result__banner-block {
+  position: relative; }
+
+.modal-window {
+  z-index: 50; }
+
+.instrument-control__upload__block-file {
+  display: block;
+  overflow: hidden;
+  width: 90%;
+  margin: 0 auto;
+  min-height: 150px;
+  border: 0.5px solid darkkhaki;
+  border-style: dotted; }
+
+.delete__block {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  border-top-left-radius: 160px;
+  border-top-right-radius: 160px; }
+
+.main__place__elements__list {
+  width: 150px;
+  height: 700px;
+  margin: 5px;
+  background: #fafadd;
+  box-shadow: 0 0 5px #26454a; }
+
+.info__block {
+  box-sizing: border-box;
+  padding: 4px; }
+
+.main__place__elements {
+  padding: 5px;
+  box-sizing: border-box; }
+
+.main__place__elements__list-items li {
+  list-style: none;
+  cursor: pointer;
+  padding: 3px; }
+
+.view__block {
+  width: 150px;
+  height: 17px;
+  padding: 3px;
+  position: absolute;
+  top: 15px;
+  left: 100px;
+  cursor: pointer; }
+
+.view__block button {
+  cursor: pointer; }
+
+.result__banner-block-close {
+  display: block;
+  width: 36px;
+  height: 31px;
+  position: absolute;
+  top: -15px;
+  right: -37px;
+  background: url(../img/sprite-all.png);
+  background-position: -69px -419px;
+  cursor: pointer; }
+
+.result__banner-block {
+  position: relative; }
+
+.instrument-control__upload__block-file {
+  display: block;
+  overflow: hidden;
+  width: 90%;
+  margin: 0 auto;
+  min-height: 150px;
+  border: 0.5px solid darkkhaki;
+  border-style: dotted; }
 
 body {
   background-color: grey;
@@ -117,8 +222,10 @@ main {
   box-shadow: 0 0 5px #26454a; }
 
 .instrument-control__color__block,
-.instrument-control__image__block {
-  overflow: auto; }
+.instrument-control__image__block,
+.instrument-control__font__block {
+  overflow: auto;
+  display: block; }
 
 .main__place__result {
   margin: 1%;
@@ -131,11 +238,20 @@ main {
 .main__place {
   display: flex; }
 
+.control-panel__control-font__item {
+  padding: 5px;
+  font-size: 14px;
+  cursor: pointer; }
+
+.control-panel__control-font__item:hover {
+  color: red; }
+
 .instrument-control__element-header,
 .instrument-control__style-header,
 .instrument-control__color-header,
 .instrument-control__image-header,
-.instrument-control__upload-header {
+.instrument-control__upload-header,
+.instrument-control__font-header {
   margin: 5px;
   padding: 5px;
   background: linear-gradient(to top, #5c878e, #3a5b6c);
@@ -162,7 +278,8 @@ main {
 footer {
   width: 100%;
   height: 50px;
-  background: linear-gradient(to top, #dbd0a2, #44677a); }
+  background: linear-gradient(to top, #dbd0a2, #44677a);
+  position: relative; }
 
 .modal-window {
   display: none;
@@ -171,7 +288,7 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(191, 185, 185, 0.85); }
+  background: rgba(191, 185, 185, 0.95); }
 
 .result__banner {
   display: none;
@@ -226,8 +343,8 @@ footer {
   width: 10px;
   height: 10px;
   border-radius: 7px;
-  border: 2px solid red;
-  background: white;
+  border: 0.5px solid #b0b5f4;
+  background: linear-gradient(to top, #d1d1c1, #fafadd);
   position: absolute;
   top: -6px;
   left: 45%; }
@@ -236,8 +353,8 @@ footer {
   width: 10px;
   height: 10px;
   border-radius: 7px;
-  border: 2px solid red;
-  background: white;
+  border: 0.5px solid #b0b5f4;
+  background: linear-gradient(to top, #d1d1c1, #fafadd);
   position: absolute;
   bottom: 45%;
   left: -6px; }
@@ -246,8 +363,8 @@ footer {
   width: 10px;
   height: 10px;
   border-radius: 7px;
-  border: 2px solid red;
-  background: white;
+  border: 0.5px solid #b0b5f4;
+  background: linear-gradient(to top, #d1d1c1, #fafadd);
   position: absolute;
   top: 45%;
   right: -6px; }
@@ -256,8 +373,8 @@ footer {
   width: 10px;
   height: 10px;
   border-radius: 7px;
-  border: 2px solid red;
-  background: white;
+  border: 0.5px solid #b0b5f4;
+  background: linear-gradient(to top, #d1d1c1, #fafadd);
   position: absolute;
   bottom: -6px;
   right: 45%; }

@@ -1,4 +1,4 @@
-﻿class CreateDiv {
+class CreateDiv {
 	constructor(elem, inElem, varText, typeInput, idName, nameClass, modelName, propertyElem) {
 		this.elem = elem;
 		this.inElem = inElem;
@@ -89,35 +89,22 @@ var controlArray = [
 	['div', 'change-opacity', 'changeOpacity', 'Opacity', '.instrument-control__style__block',''],
 	// ['div', 'change-z-index', 'changeZIndex', 'Z-index', '.control-panel__control-block','']
 ];
-function showControlPanel() {
-	// if ( document.querySelector('.control-panel__control-block').children.length == 0 ) {
+window.onload = function showControlPanel() {
 		for ( let i = 0; i < controlArray.length; i++) {
 			const controlElement = new CreateDiv(controlArray[i][0], controlArray[i][4], controlArray[i][3], '', '', controlArray[i][1], controlArray[i][2], controlArray[i][5]);
 			controlElement.NewDiv();
 		}
-		let colorArray =  [
-			['control-panel__control-color__item', 'none'],
-			['control-panel__control-color__item', 'red'],
-			['control-panel__control-color__item', 'yellow'],
-			['control-panel__control-color__item', 'green'],
-			['control-panel__control-color__item', 'black'],
-			['control-panel__control-color__item', 'white']
-		];
 		const changeControlFont = new ChangeElement('ul', 'control-panel__control-color__list','', '');
 		let placeForColorFont = document.querySelector('.instrument-control__color__block');
 		let changeElementsFont = changeControlFont.addElement(placeForColorFont);
 		const underChangeElementFont = new ChangeElement('li', colorArray);
 		underChangeElementFont.addMoreElement(changeElementsFont);
 
-		// const changeControl = new ChangeElement('ul', 'control-panel__control-color__list','', '');
-		// let placeForColor = document.querySelector('.instrument-control__image__block');
-		// let changeElements = changeControl.addElement(placeForColor);
-		// const underChangeElement = new ChangeElement('li', colorArray);
-		// underChangeElement.addMoreElement(changeElements);
-
-	// } else {
-	// 	//document.querySelector('.control-panel__control-block').children.remove();
-	// }
+		const changeFont = new ChangeElement('ul', 'control-panel__control-font__list','', '');
+		let placeForFont = document.querySelector('.instrument-control__font__block');
+		let changeFontFamily = changeFont.addElement(placeForFont);
+		const underChangeFont = new ChangeElement('li', fontArray, '', fontArray, '', '', '', '', fontArray);
+		underChangeFont.addMoreElement(changeFontFamily);
 }
 function changeValue(classNameElement, stepEl, elem){
 	var t = elem;
@@ -241,8 +228,16 @@ document.querySelector('.instrument-control__color__block').addEventListener('cl
 	elementSearch = document.getElementById(idElement);
 	if ( elementSearch === null ) return;
 	if ( elementSearch.localName === 'div' ) {
-		elementSearch.style.background = e.target.style.background;
+		elementSearch.style.backgroundColor = e.target.style.backgroundColor;
 	} else if ( elementSearch.localName === 'span' ) {
-		elementSearch.style.color = e.target.style.background;
+		elementSearch.style.color = e.target.style.backgroundColor;
+	}
+});
+document.querySelector('.instrument-control__font__block').addEventListener('click', function(e) {
+	var idElement = document.querySelector('.info__block').innerHTML;
+	elementSearch = document.getElementById(idElement);
+	if ( elementSearch === null ) return;
+	if ( elementSearch.localName === 'span' ) {
+		elementSearch.style.fontFamily = e.target.style.fontFamily;
 	}
 });

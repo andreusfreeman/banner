@@ -3,6 +3,7 @@
 //var checkClassName = ['new__block-left-up', 'new__block-right-up', 'new__block-right-down', 'new__block-left-down'];
 var checkClassName = ['new__block-right-up', 'new__block-right-down'];
 bannerSpace.onmousedown = function(e) {
+	if (e.which != 1) return;
 	if ( e.target.className === 'close__textarea' ) {
 		testCheck = true;
 		return closeInput(e.target);
@@ -16,7 +17,11 @@ bannerSpace.onmousedown = function(e) {
 	var checkClass = false;
 	bannerElement = document.getElementById(e.target.id);
 	if ( bannerElement === null ) {
-		bannerElement = document.getElementById(e.target.parentElement.parentElement.id);
+		//bannerElement = document.getElementById(e.target.parentElement.parentElement.id);
+
+		//start new code
+		bannerElement = document.getElementById(e.target.parentElement.id);
+		//end new code
 	}
 	var controlChange = e.target.className;
 	for ( let i = 0; i < checkClassName.length; i++ ) {
@@ -26,18 +31,37 @@ bannerSpace.onmousedown = function(e) {
 		}
 	}
 	if ( checkClass === false && (e.target.parentElement.className === 'main__place__work' || e.target.parentElement.parentElement.className === 'main__place__work') && e.target.localName !== 'span' ) {
-		if ( document.querySelector('.new__block') !== null )  {
+		/*if ( document.querySelector('.new__block') !== null )  {
 			document.querySelector('.new__block').remove();
+		}*/
+
+		//start new code
+		if ( e.target.className == 'new__block' ) {
+			deleteAllChange();	//delete all change block
+		} else {
+			choiceElement = e.target;
+			deleteAllChange();	//delete all change block
+			const test = new ChangeElement('div', 'new__block','element', '', 'border:0.5px solid black;border-style:dashed;position:absolute;top:' + (e.target.offsetTop - 10) + 'px;left:'+ (e.target.offsetLeft - 10) + 'px;width:' + (parseInt(getComputedStyle(e.target).width) + 20) + 'px;height:' + (parseInt(getComputedStyle(e.target).height) + 20) + 'px');
+			let testElements = test.addElement(document.querySelector('.main__place__work'));
+			const underChangeElement = new ChangeElement('a', [
+				['new__block-right-up', ''],
+				['new__block-right-down', '']
+			]);
+			underChangeElement.addMoreElement(testElements);
+			//end new code
+
+			/*const changeControl = new ChangeElement('div', 'new__block','', '');
+			let changeElements = changeControl.addElement(e.target);
+			const underChangeElement = new ChangeElement('a', [
+				['new__block-right-up', ''],
+				['new__block-right-down', '']
+			]);
+			underChangeElement.addMoreElement(changeElements);*/
 		}
-		const changeControl = new ChangeElement('div', 'new__block','', '');
-		let changeElements = changeControl.addElement(e.target);
-		const underChangeElement = new ChangeElement('a', [
-			['new__block-right-up', ''],
-			['new__block-right-down', '']
-		]);
-		underChangeElement.addMoreElement(changeElements);
 	}
-	if (bannerElement === null && checkClass === false) return;
+	if ( bannerElement === null && checkClass === false ) return;
+	//openDeleteField = setTimeout(deleteElement, 500);
+	//deleteElement();
 	var widthValue = Math.floor(parseInt(bannerElement.style.width));
 	var heightValue = Math.floor(parseInt(bannerElement.style.height));
 	var coords = getCoords(bannerElement);
@@ -47,35 +71,60 @@ bannerSpace.onmousedown = function(e) {
 	var changeHeight = Math.floor(shiftY);
 	bannerElement.style.position = 'absolute';
 	document.body.appendChild(bannerElement);
-	moveAt(e, checkClass);
 
-	if ( bannerElement.localName === 'canvas' ) {
-		bannerElement.style.zIndex = 2;
+	if ( e.target.className == 'new__block-right-up' || e.target.className == 'new__block-right-down' ) {
+		moveAtChange(e, checkClass);
 	} else {
+		moveAt(e, checkClass);
+	}
+	if ( bannerElement.localName === 'img' ) {
+		bannerElement.style.zIndex = 2;
+	} else if ( bannerElement.localName === 'div' ) {
 		bannerElement.style.zIndex = 3;
+	} else {
+		bannerElement.style.zIndex = 4;
+	}
+	//start new code change
+	function moveAt(e, checkClass) {
+		bannerElement.style.left = e.pageX - shiftX + 'px';
+		bannerElement.style.top = e.pageY - shiftY + 'px';
 	}
 
-	function moveAt(e, checkClass) {
+	function moveAtChange(e, checkClass) {
 		let classNameCheck = e.target.className;
-		if ( checkClass === true && classNameCheck == 'new__block-right-up') {
-			bannerElement.style.width = e.pageX - coords.left + 'px';
-		} else if ( checkClass === true && classNameCheck == 'new__block-right-down') {
-			bannerElement.style.height = e.pageY - coords.top + 'px';
-		} else {
-			bannerElement.style.left = e.pageX - shiftX + 'px';
-			bannerElement.style.top = e.pageY - shiftY + 'px';
+		if ( classNameCheck == 'new__block-right-up') {
+			bannerElement.style.width = e.pageX - bannerElement.offsetLeft + 'px';
+			choiceElement.style.width = e.pageX - bannerElement.offsetLeft - 20 + 'px';
+		} else if ( classNameCheck == 'new__block-right-down') {
+			bannerElement.style.height = e.pageY - bannerElement.offsetTop + 'px';
+			choiceElement.style.height = e.pageY - bannerElement.offsetTop - 20 + 'px';
 		}
 	}
-
 	document.onmousemove = function(e) {
-		testCheck = true;
-		moveAt(e, checkClass);
+		if ( e.target.className == 'new__block-right-up' || e.target.className == 'new__block-right-down' ) {
+			checkClass = true;
+			moveAtChange(e, checkClass);
+		} else {
+			deleteAllChange();	//delete all change block
+			if ( checkClass === false ) {
+				moveAt(e, checkClass);
+			} else {
+				document.onmousemove = null;
+				return;
+			}
+		}
 	};
+	//end new code change
 	bannerSpace.onmouseup = function(e) {
+		//deleteElement();
 		if ( e.target.localName == 'textarea' ) {
 			return;
 		}
 		try {
+			if ( bannerElement.className == 'new__block' ) {
+				deleteAllChange();	//delete all change block
+				return;
+			}
 			document.onmousemove = null;
 			bannerElement.onmouseup = null;
 			var a = bannerElement.offsetLeft;
@@ -119,16 +168,6 @@ function searchElement(lengthX, lengthY, elem) {
 var testObj = {
 	id: ''
 }
-// window.onload = function() {
-// 	var c = document.getElementById("myCanvas");
-// 	var img = document.getElementById("scream");
-// 	c.setAttribute('width', parseInt(getComputedStyle(img).width));
-// 	c.setAttribute('height', parseInt(getComputedStyle(img).height));
-// 	var ctx = c.getContext("2d");
-// 	ctx.drawImage(img, 0, 0);
-// 	img.style.display = 'none';
-// }
-
 function insertText(e) {
 	if ( e.localName === 'span' ) {
 		let spanText = e.innerHTML;

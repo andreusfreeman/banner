@@ -73,8 +73,10 @@ main {
 	box-shadow: 0 0 5px #26454a;
 }
 .instrument-control__color__block,
-.instrument-control__image__block {
+.instrument-control__image__block,
+.instrument-control__font__block {
 	overflow: auto;
+	display: block;
 }
 .main__place__result {
 	margin: 1%;
@@ -87,11 +89,20 @@ main {
 .main__place {
 	display: flex;
 }
+.control-panel__control-font__item {
+	padding: 5px;
+	font-size: 14px;
+	cursor: pointer;
+}
+.control-panel__control-font__item:hover {
+	color: red;
+}
 .instrument-control__element-header,
 .instrument-control__style-header,
 .instrument-control__color-header,
 .instrument-control__image-header,
-.instrument-control__upload-header {
+.instrument-control__upload-header,
+.instrument-control__font-header {
 	margin: 5px;
 	padding: 5px;
 	background: linear-gradient(to top, #5c878e, #3a5b6c);
@@ -122,6 +133,7 @@ footer {
 	width: 100%;
 	height: 50px;
 	background: linear-gradient(to top, #dbd0a2, #44677a);
+	position: relative;
 }
 .modal-window {
 	display: none;
@@ -130,7 +142,7 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(191, 185, 185, 0.85);
+  background: rgba(191, 185, 185, 0.95);
 }
 .result__banner {
 	display: none;

@@ -1,82 +1,119 @@
 function createBanner() {
-	var banner = document.querySelector('.create__block__left').children;
-	var styleArray = ['width', 'height', 'left', 'top', 'background'];
-
-	for ( let j = 0; j < banner.length; j++ ) {
-		if ( banner[j].localName !== 'canvas' ) {
-			var resultArray = [];
-			var attrsArray = banner[j].getAttribute('style').split(';');
-			attrsArray.map(function(item) {
-				for ( let i = 0; i < styleArray.length; i++ ) {
-					if ( item.search(styleArray[i]) >= 0) {
-						resultArray[i] = parseInt(item.split(':')[1]);
-					}
-				}
-			})
-			var c = document.getElementById("myCanvas");
-			var ctx = c.getContext("2d");
-			//insert image
-			if ( banner[j].src !== undefined) {
-				var img = banner[j];
-				ctx.drawImage(img, resultArray[2], resultArray[3]);
-			}
-			if ( banner[j].localName !== 'span' ) {
-				if ( banner[j].style.background.length !== 0 && banner[j].style.background !== 'none' ) {
-					ctx.beginPath();
-					ctx.globalAlpha = getComputedStyle(banner[j]).opacity;
-					ctx.rect(resultArray[2], resultArray[3], resultArray[0], resultArray[1]);
-					ctx.fillStyle = banner[j].style.background;
-					ctx.fill();
-				}
-			}
-
-			//insert text
-
-			var textInsert = banner[j];
-			if ( textInsert !== undefined ) {
-				if ( textInsert.innerHTML.length > 0 ) {
-					/*var gradient=ctx.createLinearGradient(0,0,c.width,0);
-					gradient.addColorStop("0","magenta");
-					gradient.addColorStop("0.5","blue");
-					gradient.addColorStop("1.0","red");
-					// Fill with gradient
-					ctx.fillStyle=gradient;
-					var rt = parseInt(getComputedStyle(textInsert).fontSize);
-					ctx.font = "16px Verdana";
-					ctx.fillStyle = "red";
-					ctx.fillText(textInsert.innerHTML, resultArray[2], resultArray[3] + rt , resultArray[0]);*/
-					function wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight) {
-						var words = text.split(" ");
-						var countWords = words.length;
-						var line = "";
-						for (var n = 0; n < countWords; n++) {
-							var testLine = line + words[n] + " ";
-							var testWidth = ctx.measureText(testLine).width;
-							if (testWidth > maxWidth) {
-								ctx.fillText(line, marginLeft, marginTop);
-								line = words[n] + " ";
-								marginTop += lineHeight;
-							}
-							else {
-								line = testLine;
+	var banner = document.querySelector('.main__place__work');
+	var leftToWindow = banner.offsetLeft;
+	var topToWindow = banner.offsetTop;
+	var styleArray = ['width', 'height', 'left', 'top', 'background-color', 'border-radius'];
+	var sequenceArray = [[], [], []];
+	for ( let i = 0; i < banner.children.length; i++ ) {
+		if ( banner.children[i].style.zIndex == 2 || banner.children[i].style.zIndex === undefined ) {
+			sequenceArray[0].push(banner.children[i]);
+		} else if ( banner.children[i].style.zIndex == 3 ) {
+			sequenceArray[1].push(banner.children[i]);
+		} else if ( banner.children[i].style.zIndex == 4 ) {
+			sequenceArray[2].push(banner.children[i]);
+		}
+	}
+	for ( let i = 0; i < sequenceArray.length; i++ ) {
+		if ( sequenceArray[i].length > 0 ) {
+			for ( let j = 0; j < sequenceArray[i].length; j++ ) {
+				console.log(sequenceArray[i][j]);
+				if ( sequenceArray[i][j].localName !== 'canvas' ) {
+					var resultArray = [];
+					var attrsArray = sequenceArray[i][j].getAttribute('style').split(';');
+					attrsArray.map(function(item) {
+						for ( let i = 0; i < styleArray.length; i++ ) {
+							if ( item.search(styleArray[i]) >= 0) {
+								resultArray[i] = parseInt(item.split(':')[1]);
 							}
 						}
-						ctx.fillText(line, marginLeft, marginTop);
+					})
+					var c = document.getElementById("myCanvas");
+					var ctx = c.getContext("2d");
+					//insert image
+					if ( sequenceArray[i][j].src !== undefined) {
+						var img = sequenceArray[i][j];
+						ctx.save();
+						if ( resultArray[5] === undefined ) {
+							resultArray[5] = 0;
+						}
+						console.log(resultArray[5]);
+						roundedImage(resultArray[2] - leftToWindow, resultArray[3] - topToWindow, sequenceArray[i][j].width, sequenceArray[i][j].height, resultArray[5]);
+						ctx.clip();
+						ctx.globalAlpha = getComputedStyle(sequenceArray[i][j]).opacity;
+						ctx.drawImage(img, resultArray[2] - leftToWindow, resultArray[3] - topToWindow, sequenceArray[i][j].width, sequenceArray[i][j].height);
+						ctx.restore();
+						function roundedImage(x, y, width, height, radius){
+							ctx.beginPath();
+							ctx.moveTo(x + radius, y);
+							ctx.lineTo(x + width - radius, y);
+							ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+							ctx.lineTo(x + width, y + height - radius);
+							ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+							ctx.lineTo(x + radius, y + height);
+							ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+							ctx.lineTo(x, y + radius);
+							ctx.quadraticCurveTo(x, y, x + radius, y);
+							ctx.closePath();
+						}
 					}
-					var rt = parseInt(getComputedStyle(textInsert).fontSize);
-					var maxWidth = parseInt(getComputedStyle(textInsert).width);
-					var lineHeight = parseInt(getComputedStyle(textInsert).lineHeight);
-					var fontFamily = getComputedStyle(textInsert).fontFamily;
-					var marginLeft = resultArray[2];
-					var marginTop = resultArray[3] + rt;
-					var text = textInsert.innerHTML;
-					ctx.font = textInsert.style.fontSize + " " + fontFamily;
-					ctx.fillStyle =  getComputedStyle(textInsert).color;
-					wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight);
+					if ( sequenceArray[i][j].localName !== 'span' ) {
+						if ( sequenceArray[i][j].style.backgroundColor.length !== 0 && sequenceArray[i][j].style.backgroundColor !== 'none' ) {
+							ctx.beginPath();
+							ctx.globalAlpha = getComputedStyle(sequenceArray[i][j]).opacity;
+							ctx.rect(resultArray[2] - leftToWindow, resultArray[3] - topToWindow, resultArray[0], resultArray[1]);
+							ctx.fillStyle = sequenceArray[i][j].style.backgroundColor;
+							ctx.fill();
+						}
+					}
+					//insert text
+					var textInsert = sequenceArray[i][j];
+					if ( textInsert !== undefined ) {
+						if ( textInsert.innerHTML.length > 0 ) {
+							/*var gradient=ctx.createLinearGradient(0,0,c.width,0);
+							gradient.addColorStop("0","magenta");
+							gradient.addColorStop("0.5","blue");
+							gradient.addColorStop("1.0","red");
+							// Fill with gradient
+							ctx.fillStyle=gradient;
+							var rt = parseInt(getComputedStyle(textInsert).fontSize);
+							ctx.font = "16px Verdana";
+							ctx.fillStyle = "red";
+							ctx.fillText(textInsert.innerHTML, resultArray[2], resultArray[3] + rt , resultArray[0]);*/
+							function wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight) {
+								var words = text.split(" ");
+								var countWords = words.length;
+								var line = "";
+								for (var n = 0; n < countWords; n++) {
+									var testLine = line + words[n] + " ";
+									var testWidth = ctx.measureText(testLine).width;
+									if (testWidth > maxWidth) {
+										ctx.fillText(line, marginLeft, marginTop);
+										line = words[n] + " ";
+										marginTop += lineHeight;
+									}
+									else {
+										line = testLine;
+									}
+								}
+								ctx.fillText(line, marginLeft, marginTop);
+							}
+							var rt = parseInt(getComputedStyle(textInsert).fontSize);
+							var maxWidth = parseInt(getComputedStyle(textInsert).width);
+							var lineHeight = parseInt(getComputedStyle(textInsert).lineHeight);
+							var fontFamily = getComputedStyle(textInsert).fontFamily;
+							var marginLeft = resultArray[2] - leftToWindow;
+							var marginTop = resultArray[3] - topToWindow + rt;
+							var text = textInsert.innerHTML;
+							ctx.font = textInsert.style.fontSize + " " + fontFamily;
+							ctx.fillStyle =  getComputedStyle(textInsert).color;
+							wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight);
+						}
+					}
 				}
 			}
 		}
 	}
+
 }
 
 class CreateDiv {
@@ -170,35 +207,22 @@ var controlArray = [
 	['div', 'change-opacity', 'changeOpacity', 'Opacity', '.instrument-control__style__block',''],
 	// ['div', 'change-z-index', 'changeZIndex', 'Z-index', '.control-panel__control-block','']
 ];
-function showControlPanel() {
-	// if ( document.querySelector('.control-panel__control-block').children.length == 0 ) {
+window.onload = function showControlPanel() {
 		for ( let i = 0; i < controlArray.length; i++) {
 			const controlElement = new CreateDiv(controlArray[i][0], controlArray[i][4], controlArray[i][3], '', '', controlArray[i][1], controlArray[i][2], controlArray[i][5]);
 			controlElement.NewDiv();
 		}
-		let colorArray =  [
-			['control-panel__control-color__item', 'none'],
-			['control-panel__control-color__item', 'red'],
-			['control-panel__control-color__item', 'yellow'],
-			['control-panel__control-color__item', 'green'],
-			['control-panel__control-color__item', 'black'],
-			['control-panel__control-color__item', 'white']
-		];
 		const changeControlFont = new ChangeElement('ul', 'control-panel__control-color__list','', '');
 		let placeForColorFont = document.querySelector('.instrument-control__color__block');
 		let changeElementsFont = changeControlFont.addElement(placeForColorFont);
 		const underChangeElementFont = new ChangeElement('li', colorArray);
 		underChangeElementFont.addMoreElement(changeElementsFont);
 
-		// const changeControl = new ChangeElement('ul', 'control-panel__control-color__list','', '');
-		// let placeForColor = document.querySelector('.instrument-control__image__block');
-		// let changeElements = changeControl.addElement(placeForColor);
-		// const underChangeElement = new ChangeElement('li', colorArray);
-		// underChangeElement.addMoreElement(changeElements);
-
-	// } else {
-	// 	//document.querySelector('.control-panel__control-block').children.remove();
-	// }
+		const changeFont = new ChangeElement('ul', 'control-panel__control-font__list','', '');
+		let placeForFont = document.querySelector('.instrument-control__font__block');
+		let changeFontFamily = changeFont.addElement(placeForFont);
+		const underChangeFont = new ChangeElement('li', fontArray, '', fontArray, '', '', '', '', fontArray);
+		underChangeFont.addMoreElement(changeFontFamily);
 }
 function changeValue(classNameElement, stepEl, elem){
 	var t = elem;
@@ -322,9 +346,17 @@ document.querySelector('.instrument-control__color__block').addEventListener('cl
 	elementSearch = document.getElementById(idElement);
 	if ( elementSearch === null ) return;
 	if ( elementSearch.localName === 'div' ) {
-		elementSearch.style.background = e.target.style.background;
+		elementSearch.style.backgroundColor = e.target.style.backgroundColor;
 	} else if ( elementSearch.localName === 'span' ) {
-		elementSearch.style.color = e.target.style.background;
+		elementSearch.style.color = e.target.style.backgroundColor;
+	}
+});
+document.querySelector('.instrument-control__font__block').addEventListener('click', function(e) {
+	var idElement = document.querySelector('.info__block').innerHTML;
+	elementSearch = document.getElementById(idElement);
+	if ( elementSearch === null ) return;
+	if ( elementSearch.localName === 'span' ) {
+		elementSearch.style.fontFamily = e.target.style.fontFamily;
 	}
 });
 
@@ -333,6 +365,7 @@ document.querySelector('.instrument-control__color__block').addEventListener('cl
 //var checkClassName = ['new__block-left-up', 'new__block-right-up', 'new__block-right-down', 'new__block-left-down'];
 var checkClassName = ['new__block-right-up', 'new__block-right-down'];
 bannerSpace.onmousedown = function(e) {
+	if (e.which != 1) return;
 	if ( e.target.className === 'close__textarea' ) {
 		testCheck = true;
 		return closeInput(e.target);
@@ -346,7 +379,11 @@ bannerSpace.onmousedown = function(e) {
 	var checkClass = false;
 	bannerElement = document.getElementById(e.target.id);
 	if ( bannerElement === null ) {
-		bannerElement = document.getElementById(e.target.parentElement.parentElement.id);
+		//bannerElement = document.getElementById(e.target.parentElement.parentElement.id);
+
+		//start new code
+		bannerElement = document.getElementById(e.target.parentElement.id);
+		//end new code
 	}
 	var controlChange = e.target.className;
 	for ( let i = 0; i < checkClassName.length; i++ ) {
@@ -356,18 +393,37 @@ bannerSpace.onmousedown = function(e) {
 		}
 	}
 	if ( checkClass === false && (e.target.parentElement.className === 'main__place__work' || e.target.parentElement.parentElement.className === 'main__place__work') && e.target.localName !== 'span' ) {
-		if ( document.querySelector('.new__block') !== null )  {
+		/*if ( document.querySelector('.new__block') !== null )  {
 			document.querySelector('.new__block').remove();
+		}*/
+
+		//start new code
+		if ( e.target.className == 'new__block' ) {
+			deleteAllChange();	//delete all change block
+		} else {
+			choiceElement = e.target;
+			deleteAllChange();	//delete all change block
+			const test = new ChangeElement('div', 'new__block','element', '', 'border:0.5px solid black;border-style:dashed;position:absolute;top:' + (e.target.offsetTop - 10) + 'px;left:'+ (e.target.offsetLeft - 10) + 'px;width:' + (parseInt(getComputedStyle(e.target).width) + 20) + 'px;height:' + (parseInt(getComputedStyle(e.target).height) + 20) + 'px');
+			let testElements = test.addElement(document.querySelector('.main__place__work'));
+			const underChangeElement = new ChangeElement('a', [
+				['new__block-right-up', ''],
+				['new__block-right-down', '']
+			]);
+			underChangeElement.addMoreElement(testElements);
+			//end new code
+
+			/*const changeControl = new ChangeElement('div', 'new__block','', '');
+			let changeElements = changeControl.addElement(e.target);
+			const underChangeElement = new ChangeElement('a', [
+				['new__block-right-up', ''],
+				['new__block-right-down', '']
+			]);
+			underChangeElement.addMoreElement(changeElements);*/
 		}
-		const changeControl = new ChangeElement('div', 'new__block','', '');
-		let changeElements = changeControl.addElement(e.target);
-		const underChangeElement = new ChangeElement('a', [
-			['new__block-right-up', ''],
-			['new__block-right-down', '']
-		]);
-		underChangeElement.addMoreElement(changeElements);
 	}
-	if (bannerElement === null && checkClass === false) return;
+	if ( bannerElement === null && checkClass === false ) return;
+	//openDeleteField = setTimeout(deleteElement, 500);
+	//deleteElement();
 	var widthValue = Math.floor(parseInt(bannerElement.style.width));
 	var heightValue = Math.floor(parseInt(bannerElement.style.height));
 	var coords = getCoords(bannerElement);
@@ -377,35 +433,60 @@ bannerSpace.onmousedown = function(e) {
 	var changeHeight = Math.floor(shiftY);
 	bannerElement.style.position = 'absolute';
 	document.body.appendChild(bannerElement);
-	moveAt(e, checkClass);
 
-	if ( bannerElement.localName === 'canvas' ) {
-		bannerElement.style.zIndex = 2;
+	if ( e.target.className == 'new__block-right-up' || e.target.className == 'new__block-right-down' ) {
+		moveAtChange(e, checkClass);
 	} else {
+		moveAt(e, checkClass);
+	}
+	if ( bannerElement.localName === 'img' ) {
+		bannerElement.style.zIndex = 2;
+	} else if ( bannerElement.localName === 'div' ) {
 		bannerElement.style.zIndex = 3;
+	} else {
+		bannerElement.style.zIndex = 4;
+	}
+	//start new code change
+	function moveAt(e, checkClass) {
+		bannerElement.style.left = e.pageX - shiftX + 'px';
+		bannerElement.style.top = e.pageY - shiftY + 'px';
 	}
 
-	function moveAt(e, checkClass) {
+	function moveAtChange(e, checkClass) {
 		let classNameCheck = e.target.className;
-		if ( checkClass === true && classNameCheck == 'new__block-right-up') {
-			bannerElement.style.width = e.pageX - coords.left + 'px';
-		} else if ( checkClass === true && classNameCheck == 'new__block-right-down') {
-			bannerElement.style.height = e.pageY - coords.top + 'px';
-		} else {
-			bannerElement.style.left = e.pageX - shiftX + 'px';
-			bannerElement.style.top = e.pageY - shiftY + 'px';
+		if ( classNameCheck == 'new__block-right-up') {
+			bannerElement.style.width = e.pageX - bannerElement.offsetLeft + 'px';
+			choiceElement.style.width = e.pageX - bannerElement.offsetLeft - 20 + 'px';
+		} else if ( classNameCheck == 'new__block-right-down') {
+			bannerElement.style.height = e.pageY - bannerElement.offsetTop + 'px';
+			choiceElement.style.height = e.pageY - bannerElement.offsetTop - 20 + 'px';
 		}
 	}
-
 	document.onmousemove = function(e) {
-		testCheck = true;
-		moveAt(e, checkClass);
+		if ( e.target.className == 'new__block-right-up' || e.target.className == 'new__block-right-down' ) {
+			checkClass = true;
+			moveAtChange(e, checkClass);
+		} else {
+			deleteAllChange();	//delete all change block
+			if ( checkClass === false ) {
+				moveAt(e, checkClass);
+			} else {
+				document.onmousemove = null;
+				return;
+			}
+		}
 	};
+	//end new code change
 	bannerSpace.onmouseup = function(e) {
+		//deleteElement();
 		if ( e.target.localName == 'textarea' ) {
 			return;
 		}
 		try {
+			if ( bannerElement.className == 'new__block' ) {
+				deleteAllChange();	//delete all change block
+				return;
+			}
 			document.onmousemove = null;
 			bannerElement.onmouseup = null;
 			var a = bannerElement.offsetLeft;
@@ -449,16 +530,6 @@ function searchElement(lengthX, lengthY, elem) {
 var testObj = {
 	id: ''
 }
-// window.onload = function() {
-// 	var c = document.getElementById("myCanvas");
-// 	var img = document.getElementById("scream");
-// 	c.setAttribute('width', parseInt(getComputedStyle(img).width));
-// 	c.setAttribute('height', parseInt(getComputedStyle(img).height));
-// 	var ctx = c.getContext("2d");
-// 	ctx.drawImage(img, 0, 0);
-// 	img.style.display = 'none';
-// }
-
 function insertText(e) {
 	if ( e.localName === 'span' ) {
 		let spanText = e.innerHTML;
@@ -492,20 +563,35 @@ document.querySelector('.view__work-place').addEventListener('click', function(e
 	}
 });
 
+//https://www.html5rocks.com/ru/tutorials/file/dndfiles/
 class ChangeElement {
-	constructor(elem, nameClass, id, text, style) {
+	constructor(elem, nameClass, id, text, style, source, dataElem, imageWidth, font) {
 		this.elem = elem;
 		this.nameClass = nameClass;
 		this.id = id;
 		this.text = text;
 		this.style = style;
+		this.source = source;
+		this.dataElem = dataElem;
+		this.imageWidth = imageWidth;
+		this.font = font;
 	}
 	addElement(place) {
+		var elementName = this.elem;
 		this.elem = document.createElement(this.elem);
 		this.elem.className = this.nameClass;
 		this.elem.setAttribute('style', this.style);
+		if ( elementName === 'img' ) {
+			this.elem.setAttribute('src', this.source)
+		}
 		if (this.id.length > 0 ) {
 			this.elem.id = this.id + Math.floor(Math.random() * 10000);
+		}
+		if ( this.dataElem !== undefined ) {
+			this.elem.setAttribute('data-id-elem', this.dataElem)
+		}
+		if ( this.imageWidth !== undefined ) {
+			this.elem.setAttribute('width', this.imageWidth)
 		}
 		if ( this.text !== undefined ) {
 			let placeElement = place.appendChild(this.elem);
@@ -517,13 +603,24 @@ class ChangeElement {
 	}
 	addMoreElement(place) {
 		var nameCreateElem = this.elem;
+		let textHtml;
 		for ( let i = 0; i < this.nameClass.length; i++ ) {
 			nameCreateElem = document.createElement(this.elem);
 			nameCreateElem.className = this.nameClass[i][0];
 			if ( this.nameClass[i][1].length > 0 ) {
-				nameCreateElem.setAttribute('style', 'background:' + this.nameClass[i][1]);
+				nameCreateElem.setAttribute('style', 'background-color:' + this.nameClass[i][1]);
 			}
-			place.appendChild(nameCreateElem);
+			if ( this.font !== undefined ) {
+				nameCreateElem.setAttribute('style', 'font-family:' + this.font[i][1]);
+			}
+			if ( this.text !== undefined ) {
+				textHtml = this.font[i][1];
+			}
+			if ( textHtml !== undefined ) {
+				place.appendChild(nameCreateElem).innerHTML = textHtml;
+			} else {
+				place.appendChild(nameCreateElem);								
+			}
 			nameCreateElem = this.elem;
 		}
 	}
@@ -535,17 +632,20 @@ class ChangeElement {
 }
 document.querySelector('.instrument-control__element__block-list').addEventListener('click', function(e) {
 	e.preventDefault();
-	let place = document.querySelector('.main__place__elements');
+	let place = document.querySelector('.main__place__elements-block');
 	let valueArray = e.target.dataset.idKind;
 	if ( valueArray == 'div' ) {
-		var styleValue = 'width:50px;height:40px;cursor:move;border:1px solid black;border-style:dashed';
+		var styleValue = 'width:140px;height:100px;cursor:move;border:1px solid black;border-style:dashed';
 		var textValue = '';
 	} else if ( valueArray == 'span' ) {
 		var styleValue = 'color:red;cursor:move;font-size:16px;line-height:20px;width:35px';
 		var textValue = 'Text';
 	}
-	const newBlock = new ChangeElement(valueArray, '', 'ball', textValue, styleValue);
-	newBlock.deleteButton(newBlock.addElement(place));
+	const newBlock = new ChangeElement(valueArray, '', 'element', textValue, styleValue);
+	let elementList = newBlock.addElement(place);
+	newBlock.deleteButton(elementList);
+	const listBlock = new ChangeElement('li', '', '', elementList.id, '', '', elementList.id);
+	listBlock.addElement(document.querySelector('.main__place__elements__list-items'));
 });
 function searchElementNew(elemName, elemSearch) {
 	for ( var i = 0; i < elemName.length; i++ ) {
@@ -557,3 +657,417 @@ function searchElementNew(elemName, elemSearch) {
 	}
 	return elemName;
 }
+
+var DragManager = new function() {
+
+  /**
+   * составной объект для хранения информации о переносе:
+   * {
+   *   elem - элемент, на котором была зажата мышь
+   *   avatar - аватар
+   *   downX/downY - координаты, на которых был mousedown
+   *   shiftX/shiftY - относительный сдвиг курсора от угла элемента
+   * }
+   */
+  var dragObject = {};
+
+  var self = this;
+
+  function onMouseDown(e) {
+
+    if (e.which != 1) return;
+
+    var elem = e.target.closest('.draggable');
+    if (!elem) return;
+
+    dragObject.elem = elem;
+
+    // запомним, что элемент нажат на текущих координатах pageX/pageY
+    dragObject.downX = e.pageX;
+    dragObject.downY = e.pageY;
+
+    return false;
+  }
+
+  function onMouseMove(e) {
+    if (!dragObject.elem) return; // элемент не зажат
+
+    if (!dragObject.avatar) { // если перенос не начат...
+      var moveX = e.pageX - dragObject.downX;
+      var moveY = e.pageY - dragObject.downY;
+
+      // если мышь передвинулась в нажатом состоянии недостаточно далеко
+      if (Math.abs(moveX) < 3 && Math.abs(moveY) < 3) {
+        return;
+      }
+
+      // начинаем перенос
+      dragObject.avatar = createAvatar(e); // создать аватар
+      if (!dragObject.avatar) { // отмена переноса, нельзя "захватить" за эту часть элемента
+        dragObject = {};
+        return;
+      }
+
+      // аватар создан успешно
+      // создать вспомогательные свойства shiftX/shiftY
+      var coords = getCoords(dragObject.avatar);
+      dragObject.shiftX = dragObject.downX - coords.left;
+      dragObject.shiftY = dragObject.downY - coords.top;
+
+      startDrag(e); // отобразить начало переноса
+    }
+
+    // отобразить перенос объекта при каждом движении мыши
+    dragObject.avatar.style.left = e.pageX - dragObject.shiftX + 'px';
+    dragObject.avatar.style.top = e.pageY - dragObject.shiftY + 'px';
+
+    return false;
+  }
+
+  function onMouseUp(e) {
+    if (dragObject.avatar) { // если перенос идет
+      finishDrag(e);
+    }
+
+    // перенос либо не начинался, либо завершился
+    // в любом случае очистим "состояние переноса" dragObject
+    dragObject = {};
+  }
+
+  function finishDrag(e) {
+    var dropElem = findDroppable(e);
+
+    if (!dropElem) {
+      self.onDragCancel(dragObject);
+    } else {
+      self.onDragEnd(dragObject, dropElem);
+    }
+  }
+
+  function createAvatar(e) {
+
+    // запомнить старые свойства, чтобы вернуться к ним при отмене переноса
+    var avatar = dragObject.elem;
+    var old = {
+      parent: avatar.parentNode,
+      nextSibling: avatar.nextSibling,
+      position: avatar.position || '',
+      left: avatar.left || '',
+      top: avatar.top || '',
+      zIndex: avatar.zIndex || ''
+    };
+
+    // функция для отмены переноса
+    avatar.rollback = function() {
+      old.parent.insertBefore(avatar, old.nextSibling);
+      avatar.style.position = old.position;
+      avatar.style.left = old.left;
+      avatar.style.top = old.top;
+      avatar.style.zIndex = old.zIndex
+    };
+
+    return avatar;
+  }
+
+  function startDrag(e) {
+    var avatar = dragObject.avatar;
+
+    // инициировать начало переноса
+    document.body.appendChild(avatar);
+    avatar.style.zIndex = 9999;
+    avatar.style.position = 'absolute';
+  }
+
+  function findDroppable(event) {
+    // спрячем переносимый элемент
+    dragObject.avatar.hidden = true;
+
+    // получить самый вложенный элемент под курсором мыши
+    var elem = document.elementFromPoint(event.clientX, event.clientY);
+
+    // показать переносимый элемент обратно
+    dragObject.avatar.hidden = false;
+
+    if (elem == null) {
+      // такое возможно, если курсор мыши "вылетел" за границу окна
+      return null;
+    }
+
+    return elem.closest('.droppable');
+  }
+
+  document.onmousemove = onMouseMove;
+  document.onmouseup = onMouseUp;
+  document.onmousedown = onMouseDown;
+
+  this.onDragEnd = function(dragObject, dropElem) {};
+  this.onDragCancel = function(dragObject) {};
+
+};
+
+
+function getCoords(elem) { // кроме IE8-
+  var box = elem.getBoundingClientRect();
+
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageXOffset
+  };
+
+}
+function handleFileSelect(evt) {
+  var files = evt.target.files; // FileList object
+  // Loop through the FileList and render image files as thumbnails.
+  for (var i = 0, f; f = files[i]; i++) {
+    // Only process image files.
+    if (!f.type.match('image.*')) {
+      continue;
+    }
+    var reader = new FileReader();
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+      return function(e) {
+        // Render thumbnail.
+        /*var div = document.createElement('div');
+        div.innerHTML = ['<img src="', e.target.result,
+                          '" title="', escape(theFile.name), '"/>'].join('');*/
+    const newImg = new ChangeElement('img', '', 'element', '', '', e.target.result, '', '140');
+    let imgElement = newImg.addElement(document.querySelector('.main__place__elements'));
+    const listBlock = new ChangeElement('li', '', '', imgElement.id, '', '', imgElement.id);
+    listBlock.addElement(document.querySelector('.main__place__elements__list-items'));
+      };
+    })(f);
+
+    // Read in the image file as a data URL.
+    reader.readAsDataURL(f);
+  }
+}
+
+document.querySelector('.instrument-control__upload__block-file').addEventListener('change', handleFileSelect, false);
+
+document.querySelector('.view__block-preview').addEventListener('click', function() {
+	document.querySelector('.modal-window').style.display = 'block';
+	document.querySelector('.result__banner').style.display = 'block';
+	createCanvas();
+	createBanner();
+});
+document.querySelector('.result__banner-block-close').addEventListener('click', function(e) {
+	e.preventDefault();
+	document.querySelector('.modal-window').style.display = 'none';
+	document.querySelector('.result__banner').style.display = 'none';
+});
+
+function createCanvas() {
+ 	var c = document.getElementById('myCanvas');
+ 	var elem = document.querySelector('.main__place__work');
+ 	c.setAttribute('width', parseInt(getComputedStyle(elem).width));
+ 	c.setAttribute('height', parseInt(getComputedStyle(elem).height));
+	document.querySelector('.result__banner-block').style.width = parseInt(getComputedStyle(elem).width) + 'px';
+ 	//var ctx = c.getContext("2d");
+	//ctx.drawImage(img, 0, 0);
+ 	//img.style.display = 'none';
+}
+function deleteAllChange() {
+	/*if ( document.querySelectorAll('.new__block') !== null )  {
+		document.querySelector('.new__block').remove();
+	}*/
+	let checkBlocks = false;
+	let changeBlock = document.querySelectorAll('.new__block');
+	for ( let i = 0; i < changeBlock.length; i++ ) {
+		changeBlock[i].remove();
+		checkBlocks = true;
+	}
+}
+document.querySelector('.main__place__elements__list-items').addEventListener('click', function(e) {
+	e.preventDefault();
+	document.querySelector('.info__block').innerHTML = e.target.dataset.idElem;
+	let choiceElement = document.getElementById(e.target.dataset.idElem);
+	var a = choiceElement.offsetLeft;
+	var b = choiceElement.offsetTop;
+	choiceElement.style.display = 'none';
+	searchElement(a, b, choiceElement);
+	choiceElement.style.display = 'block';
+});
+function deleteElement() {
+	let fieldDelete = document.querySelector('.delete__block');
+	if ( getComputedStyle(fieldDelete).display == 'none' ) {
+		fieldDelete.style.display = 'block';
+	} else {
+		fieldDelete.style.display = 'none'
+	}
+}
+
+colorArray =  [
+  ['control-panel__control-color__item', 'none'],
+  ['control-panel__control-color__item', 'AliceBlue'],
+  ['control-panel__control-color__item', 'AntiqueWhite'],
+  ['control-panel__control-color__item', 'Aqua'],
+  ['control-panel__control-color__item', 'Aquamarine'],
+  ['control-panel__control-color__item', 'Azure'],
+  ['control-panel__control-color__item', 'Beige'],
+  ['control-panel__control-color__item', 'Bisque'],
+  ['control-panel__control-color__item', 'Black'],
+  ['control-panel__control-color__item', 'BlanchedAlmond'],
+  ['control-panel__control-color__item', 'Blue'],
+  ['control-panel__control-color__item', 'BlueViolet'],
+  ['control-panel__control-color__item', 'Brown'],
+  ['control-panel__control-color__item', 'BurlyWood'],
+  ['control-panel__control-color__item', 'CadetBlue'],
+  ['control-panel__control-color__item', 'Chartreuse'],
+  ['control-panel__control-color__item', 'Chocolate'],
+  ['control-panel__control-color__item', 'Coral'],
+  ['control-panel__control-color__item', 'CornflowerBlue'],
+  ['control-panel__control-color__item', 'Cornsilk'],
+  ['control-panel__control-color__item', 'Crimson'],
+  ['control-panel__control-color__item', 'Cyan'],
+  ['control-panel__control-color__item', 'DarkBlue'],
+  ['control-panel__control-color__item', 'DarkCyan'],
+  ['control-panel__control-color__item', 'DarkGoldenRod'],
+  ['control-panel__control-color__item', 'DarkGray'],
+  ['control-panel__control-color__item', 'DarkGrey'],
+  ['control-panel__control-color__item', 'DarkGreen'],
+  ['control-panel__control-color__item', 'DarkKhaki'],
+  ['control-panel__control-color__item', 'DarkMagenta'],
+  ['control-panel__control-color__item', 'DarkOliveGreen'],
+  ['control-panel__control-color__item', 'DarkOrange'],
+  ['control-panel__control-color__item', 'DarkOrchid'],
+  ['control-panel__control-color__item', 'DarkRed'],
+  ['control-panel__control-color__item', 'DarkSalmon'],
+  ['control-panel__control-color__item', 'DarkSeaGreen'],
+  ['control-panel__control-color__item', 'DarkSlateBlue'],
+  ['control-panel__control-color__item', 'DarkSlateGray'],
+  ['control-panel__control-color__item', 'DarkSlateGrey'],
+  ['control-panel__control-color__item', 'DarkTurquoise'],
+  ['control-panel__control-color__item', 'DarkViolet'],
+  ['control-panel__control-color__item', 'DeepPink'],
+  ['control-panel__control-color__item', 'DeepSkyBlue'],
+  ['control-panel__control-color__item', 'DimGray'],
+  ['control-panel__control-color__item', 'DimGrey'],
+  ['control-panel__control-color__item', 'DodgerBlue'],
+  ['control-panel__control-color__item', 'FireBrick'],
+  ['control-panel__control-color__item', 'FloralWhite'],
+  ['control-panel__control-color__item', 'ForestGreen'],
+  ['control-panel__control-color__item', 'Fuchsia'],
+  ['control-panel__control-color__item', 'Gainsboro'],
+  ['control-panel__control-color__item', 'GhostWhite'],
+  ['control-panel__control-color__item', 'Gold'],
+  ['control-panel__control-color__item', 'GoldenRod'],
+  ['control-panel__control-color__item', 'Gray'],
+  ['control-panel__control-color__item', 'Grey'],
+  ['control-panel__control-color__item', 'Green'],
+  ['control-panel__control-color__item', 'GreenYellow'],
+  ['control-panel__control-color__item', 'HoneyDew'],
+  ['control-panel__control-color__item', 'HotPink'],
+  ['control-panel__control-color__item', 'IndianRed'],
+  ['control-panel__control-color__item', 'Indigo'],
+  ['control-panel__control-color__item', 'Ivory'],
+  ['control-panel__control-color__item', 'Khaki'],
+  ['control-panel__control-color__item', 'Lavender'],
+  ['control-panel__control-color__item', 'LavenderBlush'],
+  ['control-panel__control-color__item', 'LawnGreen'],
+  ['control-panel__control-color__item', 'LemonChiffon'],
+  ['control-panel__control-color__item', 'LightBlue'],
+  ['control-panel__control-color__item', 'LightCoral'],
+  ['control-panel__control-color__item', 'LightCyan'],
+  ['control-panel__control-color__item', 'LightGoldenRodYellow'],
+  ['control-panel__control-color__item', 'LightGray'],
+  ['control-panel__control-color__item', 'LightGrey'],
+  ['control-panel__control-color__item', 'LightGreen'],
+  ['control-panel__control-color__item', 'LightPink'],
+  ['control-panel__control-color__item', 'LightSalmon'],
+  ['control-panel__control-color__item', 'LightSeaGreen'],
+  ['control-panel__control-color__item', 'LightSkyBlue'],
+  ['control-panel__control-color__item', 'LightSlateGray'],
+  ['control-panel__control-color__item', 'LightSlateGrey'],
+  ['control-panel__control-color__item', 'LightSteelBlue'],
+  ['control-panel__control-color__item', 'LightYellow'],
+  ['control-panel__control-color__item', 'Lime'],
+  ['control-panel__control-color__item', 'LimeGreen'],
+  ['control-panel__control-color__item', 'Linen'],
+  ['control-panel__control-color__item', 'Magenta'],
+  ['control-panel__control-color__item', 'Maroon'],
+  ['control-panel__control-color__item', 'MediumAquaMarine'],
+  ['control-panel__control-color__item', 'MediumBlue'],
+  ['control-panel__control-color__item', 'MediumOrchid'],
+  ['control-panel__control-color__item', 'MediumPurple'],
+  ['control-panel__control-color__item', 'MediumSeaGreen'],
+  ['control-panel__control-color__item', 'MediumSlateBlue'],
+  ['control-panel__control-color__item', 'MediumSpringGreen'],
+  ['control-panel__control-color__item', 'MediumTurquoise'],
+  ['control-panel__control-color__item', 'MediumVioletRed'],
+  ['control-panel__control-color__item', 'MidnightBlue'],
+  ['control-panel__control-color__item', 'MintCream'],
+  ['control-panel__control-color__item', 'MistyRose'],
+  ['control-panel__control-color__item', 'Moccasin'],
+  ['control-panel__control-color__item', 'NavajoWhite'],
+  ['control-panel__control-color__item', 'Navy'],
+  ['control-panel__control-color__item', 'OldLace'],
+  ['control-panel__control-color__item', 'Olive'],
+  ['control-panel__control-color__item', 'OliveDrab'],
+  ['control-panel__control-color__item', 'Orange'],
+  ['control-panel__control-color__item', 'OrangeRed'],
+  ['control-panel__control-color__item', 'Orchid'],
+  ['control-panel__control-color__item', 'PaleGoldenRod'],
+  ['control-panel__control-color__item', 'PaleGreen'],
+  ['control-panel__control-color__item', 'PaleTurquoise'],
+  ['control-panel__control-color__item', 'PaleVioletRed'],
+  ['control-panel__control-color__item', 'PapayaWhip'],
+  ['control-panel__control-color__item', 'PeachPuff'],
+  ['control-panel__control-color__item', 'Peru'],
+  ['control-panel__control-color__item', 'Pink'],
+  ['control-panel__control-color__item', 'Plum'],
+  ['control-panel__control-color__item', 'PowderBlue'],
+  ['control-panel__control-color__item', 'Purple'],
+  ['control-panel__control-color__item', 'RebeccaPurple'],
+  ['control-panel__control-color__item', 'Red'],
+  ['control-panel__control-color__item', 'RosyBrown'],
+  ['control-panel__control-color__item', 'RoyalBlue'],
+  ['control-panel__control-color__item', 'SaddleBrown'],
+  ['control-panel__control-color__item', 'Salmon'],
+  ['control-panel__control-color__item', 'SandyBrown'],
+  ['control-panel__control-color__item', 'SeaGreen'],
+  ['control-panel__control-color__item', 'SeaShell'],
+  ['control-panel__control-color__item', 'Sienna'],
+  ['control-panel__control-color__item', 'Silver'],
+  ['control-panel__control-color__item', 'SkyBlue'],
+  ['control-panel__control-color__item', 'SlateBlue'],
+  ['control-panel__control-color__item', 'SlateGray'],
+  ['control-panel__control-color__item', 'SlateGrey'],
+  ['control-panel__control-color__item', 'Snow'],
+  ['control-panel__control-color__item', 'SpringGreen'],
+  ['control-panel__control-color__item', 'SteelBlue'],
+  ['control-panel__control-color__item', 'Tan'],
+  ['control-panel__control-color__item', 'Teal'],
+  ['control-panel__control-color__item', 'Thistle'],
+  ['control-panel__control-color__item', 'Tomato'],
+  ['control-panel__control-color__item', 'Turquoise'],
+  ['control-panel__control-color__item', 'Violet'],
+  ['control-panel__control-color__item', 'Wheat'],
+  ['control-panel__control-color__item', 'White'],
+  ['control-panel__control-color__item', 'WhiteSmoke'],
+  ['control-panel__control-color__item', 'Yellow'],
+  ['control-panel__control-color__item', 'YellowGreen']
+];
+
+fontArray =  [
+  ['control-panel__control-font__item', 'Georgia'],
+  ['control-panel__control-font__item', 'Palatino'],
+  ['control-panel__control-font__item', 'Times'],
+  ['control-panel__control-font__item', 'Helvetica'],
+  ['control-panel__control-font__item', 'Arial'],
+  ['control-panel__control-font__item', 'Gadget'],
+  ['control-panel__control-font__item', 'Comic Sans MS'],
+  ['control-panel__control-font__item', 'Impact'],
+  ['control-panel__control-font__item', 'Charcoal'],
+  ['control-panel__control-font__item', 'Lucida Sans Unicode'],
+  ['control-panel__control-font__item', 'Lucida Grande'],
+  ['control-panel__control-font__item', 'Tahoma'],
+  ['control-panel__control-font__item', 'Geneva'],
+  ['control-panel__control-font__item', 'Trebuchet MS'],
+  ['control-panel__control-font__item', 'Verdana'],
+  ['control-panel__control-font__item', 'Geneva'],
+  ['control-panel__control-font__item', 'Courier New'],
+  ['control-panel__control-font__item', 'Courier'],
+  ['control-panel__control-font__item', 'Lucida Console'],
+  ['control-panel__control-font__item', 'Monaco']
+];
